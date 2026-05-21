@@ -3,7 +3,7 @@ import { workerEvents } from '../events/constants.js';
 
 console.log('Model training worker initialized');
 let _globalCtx = {};
-let _model = {};
+let _model = null;
 
 const WEIGHTS = {
     category: 0.4,
@@ -132,6 +132,20 @@ function encodedUser(user, context) {
                 context.dimentions
             ])
     }
+    return tf.concat1d(
+        [
+            tf.zeros([1]), //preço é ignorado
+            tf.tensor1d([
+                normalize(user.age, context.minAge, context.maxAge)
+                * WEIGHTS.age
+            ]),
+            tf.zeros([context.numCategories]), //categoria ignorada
+            tf.zeros([context.numColors]) //cor ignorada
+        ]
+    ).reshape([
+        1,
+        context.dimentions
+    ])
 }
 
 function createTrainingData(context) {
@@ -216,6 +230,7 @@ async function configureNeuralNetAndTrain(trainData) {
             }
         }
     })
+    return model
 }
 
 async function trainModel({ users }) {
@@ -246,6 +261,54 @@ async function trainModel({ users }) {
 
 }
 function recommend(user, ctx) {
+    if (!_model) return
+
+    const context = _globalCtx
+
+    const userVector = encodedUser(user, context).dataSync()
+
+    //Em aplicações reais:
+    //Armazene todos os vetores de produtos em um bando de dados vetorial (como postegress, neo4j ou picones)
+    // Consulta: encontre os 200 produtos mais próximo do vetor do usuário
+    // Execute _model.predict() apenas nestes produtos
+
+    //Crie pares de entrada: para cada produto concatene o vetor do usuário
+    //Com o vetor codificado do produto.
+    //Por quê? O modelo prevê o "score de compatibilidade" para cada par (usuário, produto)
+    
+    const inputs = context.productVectors.map(({ vector }) => {
+        return [...userVector, ...vector]
+    })
+
+    //Converta todos esses pares (usuário, produto) em um único tensor.
+    // Formato: [numProdutos, inputDim]
+    const inputTensor = tf.tensor2d(inputs)
+
+
+    //Rode a rede neural treinada em todos os pares (usuário, produto) de uma vez.
+    //O resultado é uma pontuação para cada produto entre 0 e 1
+    //Quanto maior, maior a probabilidade do usuário querer aquele produto
+    const predictions = _model.predict(inputTensor)
+
+    //Extraia as pontuações para um array JS normal
+    const scores = predictions.dataSync()
+    
+    const recomendations = context.productVectors.map((item, index) => {
+        return {
+            ...item.meta,
+            nome: item.nome,
+            score: scores[index]
+        }
+    })
+
+    const sortedItems = recomendations.sort((a, b) => b.score - a.score)
+
+    postMessage({ 
+        type: workerEvents.recommend,
+        user,
+        recommendations: sortedItems
+    })
+
     console.log('will recommend for user:', user)
     // postMessage({
     //     type: workerEvents.recommend,
