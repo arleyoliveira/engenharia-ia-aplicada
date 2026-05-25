@@ -262,7 +262,6 @@ async function trainModel({ users }) {
 }
 function recommend(user, ctx) {
     if (!_model) return
-
     const context = _globalCtx
 
     const userVector = encodedUser(user, context).dataSync()
