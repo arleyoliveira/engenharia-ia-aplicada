@@ -1,1 +1,0 @@
-# engenharia-ia-aplicada
