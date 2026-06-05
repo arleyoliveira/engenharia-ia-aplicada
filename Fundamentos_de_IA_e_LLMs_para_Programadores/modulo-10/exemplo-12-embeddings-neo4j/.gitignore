@@ -2,3 +2,6 @@ node_modules**
 .env
 neo4j**
 neo4j/**
+.DS_Store
+./modulo-02/.DS_Store
+./modulo-03/exemplos/.DS_Store   
