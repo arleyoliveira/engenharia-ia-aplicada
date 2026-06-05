@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "scripts": {
+    "start": "node --no-warnings --watch index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^25.1.0"
+  }
+}
