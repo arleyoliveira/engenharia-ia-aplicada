@@ -1,9 +1,7 @@
 import { AIMessage } from 'langchain';
 import { OpenRouterService } from '../../services/openrouterService.ts';
 import type { GraphState } from '../graph.ts';
-import { AnalyticalResponseSchema, getErrorResponsePrompt, getMultiStepSynthesisPrompt, getSystemPrompt, getUserPromptTemplate } from '../../prompts/v1/analyticalResponse.ts';
-import { Result } from 'neo4j-driver';
-import { stat } from 'fs';
+import { AnalyticalResponseSchema, getErrorResponsePrompt, getMultiStepSynthesisPrompt, getNoResultsPrompt, getSystemPrompt, getUserPromptTemplate } from '../../prompts/v1/analyticalResponse.ts';
 
 async function handleErrorResponse(state: GraphState, llmClient: OpenRouterService): Promise<Partial<GraphState>> {
   const systemPrompt = getSystemPrompt()
