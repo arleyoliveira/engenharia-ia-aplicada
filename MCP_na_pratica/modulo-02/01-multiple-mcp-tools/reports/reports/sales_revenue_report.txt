@@ -1,0 +1,21 @@
+Sales Revenue Report
+====================
+
+Total Revenue Calculation
+----------------------------
+The total revenue from the provided sales data is calculated as follows:
+
+Sales Records:
+- Shampoo: $10.99
+- Soap: $5.49
+- Toothpaste: $3.99
+- Rice: $22.90
+- Beans: $6.99 (4 units)
+
+Total Revenue = 10.99 + 5.49 + 3.99 + 22.90 + (6.99 * 4)
+              = 10.99 + 5.49 + 3.99 + 22.90 + 27.96
+              = **$71.33**
+
+Conclusion
+----------
+The total revenue generated from the sales data is **$71.33**.

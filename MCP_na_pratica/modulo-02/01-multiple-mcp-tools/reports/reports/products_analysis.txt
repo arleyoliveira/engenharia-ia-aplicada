@@ -1,0 +1,19 @@
+Análise de Produtos Comestíveis
+
+Produtos identificados na lista como comestíveis:
+1. **Rice** (Arroz)
+2. **Beans** (Feijão)
+
+Justificativa:
+- **Shampoo**, **soap** e **toothpaste** são produtos de higiene pessoal e, portanto, não são comestíveis.
+- **Rice** e **beans** são alimentos básicos e comestíveis.
+
+Lista completa de produtos na base:
+- shampoo
+- soap
+- toothpaste
+- rice
+- beans (4 registros)
+
+Conclusão:
+Os produtos comestíveis na lista são: **rice** e **beans**.
