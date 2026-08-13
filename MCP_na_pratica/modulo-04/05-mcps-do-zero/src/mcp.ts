@@ -22,7 +22,6 @@ server.registerTool(
     },
     async ({ message, encryptionKey }) => {
         try {
-            1;
             const encryptedMessage = encrypt(message, encryptionKey)
             return {
                 isError: false,
