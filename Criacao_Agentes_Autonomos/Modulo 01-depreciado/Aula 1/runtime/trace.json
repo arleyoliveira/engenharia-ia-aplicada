@@ -1,0 +1,322 @@
+{
+  "trace_id": "178b146b90d7",
+  "tipo_agente": "interactive",
+  "entrada": "alerta de latencia no serviço de pagamento",
+  "evento": null,
+  "tempo_total_segundos": 80.07,
+  "tokens_consumidos": {
+    "prompt": 2019,
+    "completion": 328,
+    "total": 2347
+  },
+  "etapas": [
+    {
+      "etapa": 1,
+      "percepcao": "Alerta: alerta de latencia no serviço de pagamento\nModo: interactive\nEtapas realizadas: 1/10\nChamadas de ferramenta: 0/10",
+      "plano": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "argumentos_ferramenta": {},
+        "criterio_sucesso": "recebimento de informações sobre o serviço de pagamento",
+        "pergunta": "Qual é o serviço de pagamento afetado pela latência?"
+      },
+      "resultado_acao": {
+        "sucesso": true,
+        "dados": {
+          "resposta_usuario": "service--cartoes-pagamento"
+        }
+      },
+      "avaliacao": {
+        "objetivo_alcancado": false,
+        "motivo": "aguardando resposta do usuario"
+      }
+    },
+    {
+      "etapa": 2,
+      "percepcao": "Alerta: alerta de latencia no serviço de pagamento\nModo: interactive\nEtapa 1 []: {\"sucesso\": true, \"dados\": {\"resposta_usuario\": \"service--cartoes-pagamento\"}}\nEtapas realizadas: 2/10\nChamadas de ferramenta: 0/10",
+      "plano": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "argumentos_ferramenta": {},
+        "criterio_sucesso": "receber mais informações sobre o serviço de pagamento",
+        "pergunta": "Qual o próximo passo que você gostaria de tomar em relação ao serviço de pagamento 'cartoes-pagamento'?"
+      },
+      "resultado_acao": {
+        "sucesso": true,
+        "dados": {
+          "resposta_usuario": "valiar query em banco de dados"
+        }
+      },
+      "avaliacao": {
+        "objetivo_alcancado": false,
+        "motivo": "aguardando resposta do usuario"
+      }
+    },
+    {
+      "etapa": 3,
+      "percepcao": "Alerta: alerta de latencia no serviço de pagamento\nModo: interactive\nEtapa 1 []: {\"sucesso\": true, \"dados\": {\"resposta_usuario\": \"service--cartoes-pagamento\"}}\nEtapa 2 []: {\"sucesso\": true, \"dados\": {\"resposta_usuario\": \"valiar query em banco de dados\"}}\nEtapas realizadas: 3/10\nChamadas de ferramenta: 0/10",
+      "plano": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "argumentos_ferramenta": {},
+        "criterio_sucesso": "Receber uma resposta do usuário com a consulta desejada.",
+        "pergunta": "Qual consulta específica você gostaria de realizar no banco de dados para avaliar a latência no serviço de pagamento?"
+      },
+      "resultado_acao": {
+        "sucesso": true,
+        "dados": {
+          "resposta_usuario": "A tabela não tem index e tem milhares de registros"
+        }
+      },
+      "avaliacao": {
+        "objetivo_alcancado": false,
+        "motivo": "aguardando resposta do usuario"
+      }
+    }
+  ],
+  "resumo": "Objetivo: desconhecido\nEtapas executadas: 4\nFerramentas chamadas: nenhuma\nResultado: encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )\nTipo: interactive",
+  "agente": "monitor-agent",
+  "telemetry_stream": [
+    {
+      "timestamp": "2026-08-25T09:05:20.037850",
+      "elapsed_ms": 0,
+      "trace_id": "178b146b90d7",
+      "tipo": "inicio",
+      "dados": {
+        "entrada": "alerta de latencia no serviço de pagamento",
+        "objetivo": "desconhecido",
+        "max_etapas": 10,
+        "max_tokens": 50000
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:20.038003",
+      "elapsed_ms": 0,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "perceber",
+        "etapa": 1,
+        "duracao_ms": 0.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:25.590300",
+      "elapsed_ms": 5552,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "planejar",
+        "etapa": 1,
+        "duracao_ms": 5552.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:25.590392",
+      "elapsed_ms": 5553,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "recebimento de informações sobre o serviço de pagamento"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:38.537727",
+      "elapsed_ms": 18500,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "perceber",
+        "etapa": 2,
+        "duracao_ms": 0.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:40.421050",
+      "elapsed_ms": 20383,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "planejar",
+        "etapa": 2,
+        "duracao_ms": 1883.3
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:40.421125",
+      "elapsed_ms": 20383,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "receber mais informações sobre o serviço de pagamento"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:57.036280",
+      "elapsed_ms": 36998,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "perceber",
+        "etapa": 3,
+        "duracao_ms": 0.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:58.852693",
+      "elapsed_ms": 38815,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "planejar",
+        "etapa": 3,
+        "duracao_ms": 1816.4
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:58.852751",
+      "elapsed_ms": 38815,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "Receber uma resposta do usuário com a consulta desejada."
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:37.239601",
+      "elapsed_ms": 77202,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "perceber",
+        "etapa": 4,
+        "duracao_ms": 0.1
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:40.108224",
+      "elapsed_ms": 80070,
+      "trace_id": "178b146b90d7",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "planejar",
+        "etapa": 4,
+        "duracao_ms": 2868.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:40.108317",
+      "elapsed_ms": 80070,
+      "trace_id": "178b146b90d7",
+      "tipo": "circuit_breaker",
+      "dados": {
+        "motivo": "ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:40.108361",
+      "elapsed_ms": 80071,
+      "trace_id": "178b146b90d7",
+      "tipo": "finalizado",
+      "dados": {
+        "etapas": 4,
+        "resultado": "encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )",
+        "tokens_total": 2347
+      }
+    }
+  ],
+  "audit_logs": [
+    {
+      "timestamp": "2026-08-25T09:05:25.590392",
+      "elapsed_ms": 5553,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "recebimento de informações sobre o serviço de pagamento"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:40.421125",
+      "elapsed_ms": 20383,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "receber mais informações sobre o serviço de pagamento"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:05:58.852751",
+      "elapsed_ms": 38815,
+      "trace_id": "178b146b90d7",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "PERGUNTAR_USUARIO",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "Receber uma resposta do usuário com a consulta desejada."
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:40.108317",
+      "elapsed_ms": 80070,
+      "trace_id": "178b146b90d7",
+      "tipo": "circuit_breaker",
+      "dados": {
+        "motivo": "ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )"
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:06:40.108361",
+      "elapsed_ms": 80071,
+      "trace_id": "178b146b90d7",
+      "tipo": "finalizado",
+      "dados": {
+        "etapas": 4,
+        "resultado": "encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )",
+        "tokens_total": 2347
+      }
+    }
+  ],
+  "health_metrics": {
+    "trace_id": "178b146b90d7",
+    "taxa_sucesso_ferramentas": 0.0,
+    "ferramentas_sucesso": 0,
+    "ferramentas_falha": 0,
+    "circuit_breaker_ativacoes": 1,
+    "validacao_payload_falhas": 0,
+    "chamadas_llm": 4
+  },
+  "performance_data": {
+    "trace_id": "178b146b90d7",
+    "tempo_total_ms": 80071,
+    "tokens": {
+      "prompt": 2019,
+      "completion": 328,
+      "total": 2347
+    },
+    "chamadas_llm": 4,
+    "fases": {
+      "perceber": {
+        "total_ms": 0.30000000000000004,
+        "contagem": 4,
+        "max_ms": 0.1,
+        "media_ms": 0.1
+      },
+      "planejar": {
+        "total_ms": 12120.6,
+        "contagem": 4,
+        "max_ms": 5552.3,
+        "media_ms": 3030.2
+      }
+    }
+  }
+}
