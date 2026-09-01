@@ -1,0 +1,10 @@
+{
+  "nextId": 4,
+  "tasks": [
+    {
+      "id": 3,
+      "title": "Criada via HTTP",
+      "status": "done"
+    }
+  ]
+}
