@@ -1,0 +1,17 @@
+{
+  "services": [
+    "api-gateway",
+    "auth-service",
+    "billing",
+    "notifications",
+    "search"
+  ],
+  "alerts": [
+    { "service": "api-gateway", "title": "Latência p95 acima de 2s", "status": "firing" },
+    { "service": "auth-service", "title": "Taxa de erro 5xx > 5%", "status": "firing" },
+    { "service": "billing", "title": "Fila de pagamentos acumulando", "status": "firing" },
+    { "service": "notifications", "title": "Envio de e-mails normalizado", "status": "resolved" },
+    { "service": "search", "title": "Índice reconstruído", "status": "resolved" },
+    { "service": "api-gateway", "title": "Deploy concluído sem erros", "status": "resolved" }
+  ]
+}

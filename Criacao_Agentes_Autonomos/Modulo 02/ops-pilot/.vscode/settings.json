@@ -1,0 +1,29 @@
+{
+  "github.copilot.chat.tools.terminal.autoApprove": {
+    "npm run": true,
+    "npx tsc": true,
+    "node": true,
+    "git status": true,
+    "git diff": true,
+    "git add": true,
+    "git commit": true,
+    "rm -rf": false,
+    "sudo": false,
+    "git push --force": false,
+    "cat .env": false,
+    "cat .env.*": false
+  },
+  "chat.tools.terminal.autoApprove": {
+    "docker rm": true,
+    "nc": true,
+    "lsof": true,
+    "docker run": true,
+    "osascript": true,
+    "open": true,
+    "seq": true,
+    "break": true,
+    "node_modules/.bin/tsx": true,
+    ".specify/scripts/bash/setup-plan.sh": true,
+    ".specify/scripts/bash/setup-tasks.sh": true
+  }
+}
