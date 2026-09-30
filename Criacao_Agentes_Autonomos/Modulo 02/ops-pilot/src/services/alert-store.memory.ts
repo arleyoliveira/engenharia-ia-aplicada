@@ -5,6 +5,8 @@ import type {
   AlertRecord,
   AlertStatus,
   IncidentRecord,
+  IncidentStatus,
+  RunbookRecord,
   Severity,
   ServiceRecord,
   StoreRepos,
@@ -14,6 +16,7 @@ export interface MemoryState {
   services: ServiceRecord[];
   alerts: AlertRecord[];
   incidents: IncidentRecord[];
+  runbooks: RunbookRecord[];
   nextId: number;
 }
 
@@ -22,6 +25,7 @@ export function createMemoryRepos(): StoreRepos & { state: MemoryState } {
     services: [],
     alerts: [],
     incidents: [],
+    runbooks: [],
     nextId: 1,
   };
 
@@ -62,7 +66,9 @@ export function createMemoryRepos(): StoreRepos & { state: MemoryState } {
           id: state.nextId++,
           ...input,
           status: "open",
+          createdAt: new Date().toISOString(),
           resolvedAt: null,
+          summary: null,
         };
         state.incidents.push(record);
         return record;
@@ -78,6 +84,31 @@ export function createMemoryRepos(): StoreRepos & { state: MemoryState } {
         record.status = "resolved";
         record.resolvedAt = resolvedAt;
         return record;
+      },
+      async list(status?: IncidentStatus | "all") {
+        if (!status || status === "open") {
+          return state.incidents.filter((i) => i.status === "open");
+        }
+        if (status === "resolved") {
+          return state.incidents.filter((i) => i.status === "resolved");
+        }
+        if (status === "all") {
+          return [...state.incidents];
+        }
+        return state.incidents.filter((i) => i.status === status);
+      },
+    },
+    runbooks: {
+      async findByServiceId(serviceId: number) {
+        return state.runbooks.find((r) => r.serviceId === serviceId) ?? null;
+      },
+      async create(input) {
+        const record: RunbookRecord = { id: state.nextId++, ...input };
+        state.runbooks.push(record);
+        return record;
+      },
+      async list() {
+        return [...state.runbooks];
       },
     },
     async serviceName(serviceId) {

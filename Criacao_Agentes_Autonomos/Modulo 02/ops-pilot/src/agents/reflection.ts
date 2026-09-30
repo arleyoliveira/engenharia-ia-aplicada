@@ -8,13 +8,17 @@ import type {
   CritiqueResult,
   ReasoningStrategy,
   ReflectionOptions,
+  StrategyInput,
   StrategyResult,
   StrategyRunOptions,
   TraceEvent,
 } from "./types.js";
-import { createModel } from "./model.js";
+import { createModel, runCollectingFallbacks } from "./model.js";
 import { createLlmCallCounter } from "./metrics.js";
-import { ModelOutputError } from "../errors.js";
+import { ModelOutputError, ModelUnavailableError } from "../errors.js";
+import {
+  normalizeChatTurnInput,
+} from "../services/compose-chat-prompt.js";
 
 const DEFAULT_MAX_REFLECTIONS = 2;
 
@@ -82,7 +86,7 @@ export async function critique(
     }
     throw new Error("Veredito malformado retornado pelo modelo.");
   } catch (error) {
-    if (error instanceof ModelOutputError) {
+    if (error instanceof ModelOutputError || error instanceof ModelUnavailableError) {
       throw error;
     }
     throw new ModelOutputError(
@@ -104,19 +108,23 @@ export function withReflection(
 
   return {
     name,
-    async run(input: string, runOptions?: StrategyRunOptions): Promise<StrategyResult> {
+    async run(input: StrategyInput, runOptions?: StrategyRunOptions): Promise<StrategyResult> {
+      return runCollectingFallbacks(async () => {
       const startTime = performance.now();
       const counter = createLlmCallCounter();
       const traceAccumulator: TraceEvent[] = [];
       let totalLlmCalls = 0;
+      let totalPromptTokens = 0;
+      const originalMessage = normalizeChatTurnInput(input).message;
 
-      let currentInput = input;
+      let currentInput: StrategyInput = input;
       let lastResult: StrategyResult | null = null;
       let reflectionCount = 0;
 
       while (true) {
         const baseResult = await strategy.run(currentInput, runOptions);
         totalLlmCalls += baseResult.metrics.llmCalls;
+        totalPromptTokens += baseResult.metrics.promptTokens ?? 0;
         lastResult = baseResult;
 
         // Adiciona os eventos da execução base (exceto answer intermediário se houver)
@@ -134,12 +142,13 @@ export function withReflection(
             metrics: {
               llmCalls: totalLlmCalls,
               latencyMs: Math.round(performance.now() - startTime),
+              promptTokens: totalPromptTokens,
             },
           };
         }
 
         const evaluation = await critique(
-          input,
+          originalMessage,
           baseResult,
           deps,
           [counter.handler],
@@ -159,6 +168,7 @@ export function withReflection(
             metrics: {
               llmCalls: totalLlmCalls + counter.calls,
               latencyMs: Math.round(performance.now() - startTime),
+              promptTokens: totalPromptTokens + counter.promptTokens,
             },
           };
         }
@@ -176,12 +186,18 @@ export function withReflection(
             metrics: {
               llmCalls: totalLlmCalls + counter.calls,
               latencyMs: Math.round(performance.now() - startTime),
+              promptTokens: totalPromptTokens + counter.promptTokens,
             },
           };
         }
 
-        currentInput = `${input}\n\n[Feedback do Crítico na tentativa anterior]: ${evaluation.feedback}\nPor favor, reavalie e corrija a resposta considerando este feedback.`;
+        const turn = normalizeChatTurnInput(input);
+        currentInput = {
+          message: `${turn.message}\n\n[Feedback do Crítico na tentativa anterior]: ${evaluation.feedback}\nPor favor, reavalie e corrija a resposta considerando este feedback.`,
+          history: turn.history,
+        };
       }
+      });
     },
   };
 }

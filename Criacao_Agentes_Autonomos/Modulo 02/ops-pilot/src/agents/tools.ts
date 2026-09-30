@@ -1,166 +1,154 @@
 /**
  * Ferramentas operacionais do agente (contracts/tools.md).
  * Argumentos validados com Zod na fronteira; retorno JSON serializado.
+ * Todas as descrições seguem as 6 regras (o que faz, quando usar, quando não usar,
+ * efeitos colaterais, retorno e parâmetros com .describe()).
+ *
+ * As 3 tools compartilhadas com MCP vêm de ops-tool-defs (fonte única).
  */
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 import { DomainError } from "../errors.js";
 import type { AlertStore } from "../services/alert-store.js";
-import { getDefaultAlertStore } from "../services/default-store.js";
+import type { OpsStore } from "../store/ops-store.js";
+import { getDefaultOpsStore } from "../services/default-store.js";
+import { checkProviderStatus } from "../services/provider-status.js";
+import {
+  executeListAlerts,
+  executeOpenIncident,
+  executeResolveIncident,
+  failurePayload,
+  listAlertsDescription,
+  listAlertsSchema,
+  openIncidentDescription,
+  openIncidentSchema,
+  resolveIncidentDescription,
+  resolveIncidentSchema,
+} from "./ops-tool-defs.js";
 
-const NULLISH_TOKENS = new Set(["", "none", "null", "undefined", "n/a", "na"]);
+export type OpsToolsDeps = {
+  fetchImpl?: typeof fetch;
+};
 
-function isNullishToken(value: unknown): boolean {
-  return typeof value === "string" && NULLISH_TOKENS.has(value.trim().toLowerCase());
-}
-
-function normalizeAlertStatus(value: unknown): "firing" | "resolved" | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const normalized = value.trim().toLowerCase();
-  const aliases: Record<string, "firing" | "resolved"> = {
-    firing: "firing",
-    fire: "firing",
-    active: "firing",
-    open: "firing",
-    warning: "firing",
-    disparado: "firing",
-    disparando: "firing",
-    critical: "firing",
-    critico: "firing",
-    sev1: "firing",
-    sev2: "firing",
-    sev3: "firing",
-    sev4: "firing",
-    resolved: "resolved",
-    resolve: "resolved",
-    ok: "resolved",
-    clear: "resolved",
-    normal: "resolved",
-  };
-
-  return aliases[normalized];
-}
-
-function normalizeSeverity(value: unknown): "low" | "medium" | "high" | "critical" | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const normalized = value.trim().toLowerCase();
-  const aliases: Record<string, "low" | "medium" | "high" | "critical"> = {
-    low: "low",
-    minor: "low",
-    leve: "low",
-    medium: "medium",
-    moderate: "medium",
-    sev2: "medium",
-    high: "high",
-    severe: "high",
-    urgent: "high",
-    sev3: "high",
-    critical: "critical",
-    critico: "critical",
-    block: "critical",
-    sev4: "critical",
-    sev1: "low",
-  };
-
-  return aliases[normalized];
-}
-
-function failurePayload(error: unknown): string {
-  if (error instanceof DomainError) {
-    return JSON.stringify({ error: { code: error.code, message: error.message } });
-  }
-  throw error;
-}
-
-export function createOpsTools(store: AlertStore) {
+export function createOpsTools(
+  store: AlertStore | OpsStore | any,
+  deps: OpsToolsDeps = {},
+) {
+  const fetchImpl = deps.fetchImpl;
   const listAlerts = tool(
-    async ({ status }) => {
-      const normalizedStatus = isNullishToken(status)
-        ? undefined
-        : normalizeAlertStatus(status);
-      if (status && !isNullishToken(status) && normalizedStatus === undefined) {
-        throw new DomainError(
-          "INVALID_STATUS",
-          `status inválido: ${String(status)}. Use "firing" ou "resolved".`,
-        );
-      }
-
-      return JSON.stringify({
-        alerts: await store.listAlerts({ status: normalizedStatus }),
-      });
-    },
+    async (args) => executeListAlerts(store, args),
     {
       name: "list_alerts",
-      description:
-        "Lista os alertas de monitoramento. Use quando o plantonista perguntar o que está disparando, o estado dos serviços ou 'como está o plantão'. status: firing | resolved (omitir para listar todos).",
-      schema: z.object({
-        status: z.string().optional(),
-      }),
+      description: listAlertsDescription,
+      schema: listAlertsSchema,
     },
   );
 
   const openIncident = tool(
-    async ({ title, service, severity }) => {
-      try {
-        const normalizedSeverity = normalizeSeverity(severity);
-        if (normalizedSeverity === undefined) {
-          throw new DomainError(
-            "INVALID_SEVERITY",
-            `severity inválida: ${String(severity)}. Use "low", "medium", "high" ou "critical".`,
-          );
-        }
-
-        const incident = await store.openIncident({
-          title,
-          service,
-          severity: normalizedSeverity,
-        });
-        return JSON.stringify({ incident });
-      } catch (error) {
-        return failurePayload(error);
-      }
-    },
+    async (args) => executeOpenIncident(store, args),
     {
       name: "open_incident",
-      description:
-        "Abre um incidente de plantão vinculado a um serviço existente. severity: low | medium | high | critical.",
-      schema: z.object({
-        title: z.string().min(1).max(200),
-        service: z.string().min(1),
-        severity: z.string(),
-      }),
+      description: openIncidentDescription,
+      schema: openIncidentSchema,
     },
   );
 
   const resolveIncident = tool(
-    async ({ id }) => {
+    async (args) => executeResolveIncident(store, args),
+    {
+      name: "resolve_incident",
+      description: resolveIncidentDescription,
+      schema: resolveIncidentSchema,
+    },
+  );
+
+  const listIncidents = tool(
+    async ({ status }) => {
       try {
-        const incident = await store.resolveIncident({ id });
-        return JSON.stringify({ incident });
+        const incidents = (await store.listIncidents?.(status)) ?? [];
+        return JSON.stringify({ incidents });
       } catch (error) {
         return failurePayload(error);
       }
     },
     {
-      name: "resolve_incident",
+      name: "list_incidents",
       description:
-        "Marca um incidente como resolvido pelo identificador. Idempotente.",
+        "Lista os incidentes operacionais registrados no sistema. Use quando precisar consultar o histórico de incidentes, verificar incidentes em andamento ou listar os resolvidos. Não use para consultar alertas de monitoramento ou runbooks de serviços. Não produz efeitos colaterais (operação de leitura). Retorna um array de incidentes com id, título, serviço, severidade, status e datas de criação/resolução.",
       schema: z.object({
-        id: z.number().int().positive(),
+        status: z
+          .enum(["open", "resolved", "all"])
+          .default("open")
+          .describe("Filtro de status do incidente: 'open' (padrão), 'resolved' ou 'all'."),
       }),
     },
   );
 
-  return [listAlerts, openIncident, resolveIncident] as const;
+  const consultarRunbook = tool(
+    async ({ service }) => {
+      try {
+        const runbook = await store.getRunbook?.(service);
+        if (!runbook) {
+          throw new DomainError("NOT_FOUND", `Runbook não encontrado para o serviço: ${service}`);
+        }
+        return JSON.stringify({ runbook });
+      } catch (error) {
+        return failurePayload(error);
+      }
+    },
+    {
+      name: "consultar_runbook",
+      description:
+        "Consulta o procedimento operacional (runbook) documentado para um serviço. Use quando precisar de instruções passo a passo para investigar ou mitigar falhas em um serviço específico. Não use para listar alertas ou abrir novos incidentes. Não produz efeitos colaterais (operação de leitura). Retorna o objeto do runbook contendo id, serviço, nome e os passos detalhados.",
+      schema: z.object({
+        service: z
+          .string()
+          .min(1)
+          .describe("Nome do serviço cujo runbook operacional deve ser consultado (ex: 'checkout', 'payments', 'auth')."),
+      }),
+    },
+  );
+
+  const checkProviderStatusTool = tool(
+    async ({ provider }) => {
+      try {
+        const result = await checkProviderStatus({
+          provider,
+          fetchImpl,
+        });
+        return result.ok ? result.line : result.error;
+      } catch (error) {
+        const message =
+          error instanceof Error ? error.message : "unexpected error";
+        return `check_provider_status failed: ${message}`;
+      }
+    },
+    {
+      name: "check_provider_status",
+      description:
+        "Consulta a status page pública de um provedor externo (GitHub ou Cloudflare), sem autenticação. Use quando houver suspeita de problema externo, a pergunta for “é o nosso ou do provedor?” ou uma dependência parecer fora do ar. Não use para listar alertas/incidentes internos do OpsPilot nem para abrir/resolver incidente. Somente leitura HTTP externa (sem mutação local). Retorna uma linha compacta `provider: indicator — description`, ou mensagem de erro legível se a consulta falhar.",
+      schema: z.object({
+        provider: z
+          .enum(["github", "cloudflare"])
+          .default("github")
+          .describe(
+            "Provedor externo cuja status page pública será consultada. Use 'github' (padrão) ou 'cloudflare'.",
+          ),
+      }),
+    },
+  );
+
+  return [
+    listAlerts,
+    openIncident,
+    resolveIncident,
+    listIncidents,
+    consultarRunbook,
+    checkProviderStatusTool,
+  ] as const;
 }
 
-/** Ferramentas padrão: MySQL quando configurado, catálogo em memória caso contrário. */
+/** Ferramentas padrão: SQLite embarcado (SqliteOpsStore) com catálogo pré-semeado. */
 export async function createDefaultOpsTools() {
-  return createOpsTools(await getDefaultAlertStore());
+  return createOpsTools(await getDefaultOpsStore());
 }

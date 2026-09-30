@@ -2,6 +2,7 @@
  * Estratégia ReAct: agente pré-construído do LangGraph (research R1).
  * Converte mensagens em TraceEvents e mede métricas (llmCalls via callback).
  */
+import type { LanguageModelLike } from "@langchain/core/language_models/base";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import {
   AIMessage,
@@ -10,13 +11,16 @@ import {
 } from "@langchain/core/messages";
 import type {
   ReasoningStrategy,
+  StrategyInput,
   StrategyResult,
   StrategyRunOptions,
   TraceEvent,
 } from "./types.js";
-import { createModel } from "./model.js";
+import { createModel, runCollectingFallbacks } from "./model.js";
+import { ModelUnavailableError } from "../errors.js";
 import { createDefaultOpsTools } from "./tools.js";
 import { createLlmCallCounter } from "./metrics.js";
+import { toAgentMessages } from "../services/compose-chat-prompt.js";
 
 const DEFAULT_MAX_ITERATIONS = 8;
 
@@ -60,15 +64,16 @@ export function createReactStrategy(config?: {
   return {
     name: "react",
     async run(
-      input: string,
+      input: StrategyInput,
       options?: StrategyRunOptions,
     ): Promise<StrategyResult> {
+      return runCollectingFallbacks(async () => {
       const started = performance.now();
       const counter = createLlmCallCounter();
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const opsTools = (options?.tools ?? config?.tools ?? (await createDefaultOpsTools())) as any[];
       const agent = createReactAgent({
-        llm: createModel(),
+        llm: createModel() as unknown as LanguageModelLike,
         tools: [...opsTools],
       });
 
@@ -79,7 +84,7 @@ export function createReactStrategy(config?: {
       let answer: string;
       try {
         const result = await agent.invoke(
-          { messages: [{ role: "user", content: input }] },
+          { messages: toAgentMessages(input) },
           {
             // guardrail: nada de loop infinito (research R7)
             recursionLimit: Math.max(2, maxIterations * 2),
@@ -89,6 +94,9 @@ export function createReactStrategy(config?: {
         trace.push(...toTrace(result.messages));
         answer = lastText(result.messages);
       } catch (error) {
+        if (error instanceof ModelUnavailableError) {
+          throw error;
+        }
         // Encerramento controlado ao atingir o limite de recursão (FR-010).
         const message =
           error instanceof Error ? error.message : String(error);
@@ -106,8 +114,10 @@ export function createReactStrategy(config?: {
         metrics: {
           llmCalls: counter.calls,
           latencyMs: Math.round(performance.now() - started),
+          promptTokens: counter.promptTokens,
         },
       };
+      });
     },
   };
 }

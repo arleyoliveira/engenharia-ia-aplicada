@@ -27,6 +27,16 @@ describe("formatTrace", () => {
     assert.equal(lines[3], "[answer] Nenhum alerta disparando.");
   });
 
+  it("evento handoff mostra o papel e o recado", () => {
+    const trace: TraceEvent[] = [
+      { type: "handoff", from: "supervisor", to: "analista", brief: "ler alertas", node: "supervisor" },
+      { type: "answer", content: "feito" },
+    ];
+    const lines = formatTrace(trace).split("\n");
+    assert.equal(lines[0], "[handoff] analista ler alertas");
+    assert.equal(lines[1], "[answer] feito");
+  });
+
   it("evento plan lista passos numerados", () => {
     const trace: TraceEvent[] = [
       { type: "plan", steps: ["Listar firing", "Abrir incidente"] },
@@ -96,6 +106,38 @@ describe("formatTrace", () => {
     assert.ok(output.includes("[critique] [APROVADO] Tudo correto."));
     assert.ok(output.includes("[answer] Finalizado."));
   });
+
+  it("evento summarize serializa como [summarize] conteúdo", () => {
+    const trace: TraceEvent[] = [
+      { type: "summarize", content: "Decisões: priorizar checkout" },
+      { type: "answer", content: "ok" },
+    ];
+    assert.equal(
+      formatTrace(trace),
+      "[summarize] Decisões: priorizar checkout\n[answer] ok",
+    );
+  });
+
+  it("evento route serializa rota, override e motivo sem o nó", () => {
+    const trace: TraceEvent[] = [
+      {
+        type: "route",
+        route: "planExecute",
+        reason: "estratégia informada pelo cliente",
+        override: true,
+        node: "roteador",
+      },
+      { type: "thought", content: "Preciso listar os alertas" },
+      { type: "answer", content: "feito" },
+    ];
+    const lines = formatTrace(trace).split("\n");
+    assert.equal(
+      lines[0],
+      "[route] planExecute override=true estratégia informada pelo cliente",
+    );
+    assert.equal(lines[1], "[thought] Preciso listar os alertas");
+    assert.equal(lines[2], "[answer] feito");
+  });
 });
 
 describe("summarizeMetrics", () => {
@@ -103,6 +145,31 @@ describe("summarizeMetrics", () => {
     assert.equal(
       summarizeMetrics({ llmCalls: 4, latencyMs: 3210 }),
       "llmCalls=4 latencyMs=3210",
+    );
+  });
+
+  it("inclui promptTokens quando definido", () => {
+    assert.equal(
+      summarizeMetrics({ llmCalls: 2, latencyMs: 100, promptTokens: 840 }),
+      "llmCalls=2 latencyMs=100 promptTokens=840",
+    );
+  });
+
+  it("inclui fallbacks quando definido", () => {
+    assert.equal(
+      summarizeMetrics({ llmCalls: 2, latencyMs: 100, fallbacks: 1 }),
+      "llmCalls=2 latencyMs=100 fallbacks=1",
+    );
+  });
+});
+
+describe("formatTrace fallback", () => {
+  it("imprime from e to sem content", () => {
+    assert.equal(
+      formatTrace([
+        { type: "fallback", from: "openai/gpt-4o-mini", to: "openai/gpt-4.1-mini" },
+      ]),
+      "[fallback] openai/gpt-4o-mini → openai/gpt-4.1-mini",
     );
   });
 });

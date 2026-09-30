@@ -8,6 +8,7 @@ import { NotFoundError } from "../errors.js";
 export type AlertStatus = "firing" | "resolved";
 export type Severity = "low" | "medium" | "high" | "critical";
 export type IncidentStatus = "open" | "resolved";
+export type IncidentFilter = IncidentStatus | "all" | { status?: IncidentStatus | "all" };
 
 export interface AlertView {
   id: number;
@@ -22,7 +23,16 @@ export interface IncidentView {
   service: string;
   severity: Severity;
   status: IncidentStatus;
+  createdAt?: string;
   resolvedAt: Date | null;
+  summary?: string | null;
+}
+
+export interface RunbookView {
+  id: number;
+  service: string;
+  name: string;
+  steps: string;
 }
 
 export interface ServiceRecord {
@@ -43,7 +53,16 @@ export interface IncidentRecord {
   title: string;
   severity: Severity;
   status: IncidentStatus;
+  createdAt?: string;
   resolvedAt: Date | null;
+  summary?: string | null;
+}
+
+export interface RunbookRecord {
+  id: number;
+  serviceId: number;
+  name: string;
+  steps: string;
 }
 
 /** Fronteira de IO: implementada pelos models Sequelize ou por fakes. */
@@ -69,19 +88,27 @@ export interface StoreRepos {
     }): Promise<IncidentRecord>;
     findById(id: number): Promise<IncidentRecord | null>;
     markResolved(id: number, resolvedAt: Date): Promise<IncidentRecord>;
+    list?(status?: IncidentStatus | "all"): Promise<IncidentRecord[]>;
+  };
+  runbooks?: {
+    findByServiceId(serviceId: number): Promise<RunbookRecord | null>;
+    create(input: { serviceId: number; name: string; steps: string }): Promise<RunbookRecord>;
+    list?(): Promise<RunbookRecord[]>;
   };
   /** Nome do serviço por id (join feito pela implementação concreta). */
   serviceName(serviceId: number): Promise<string>;
 }
 
 export interface AlertStore {
-  listAlerts(filter: { status?: AlertStatus }): Promise<AlertView[]>;
+  listAlerts(filter?: { status?: AlertStatus }): Promise<AlertView[]>;
   openIncident(input: {
     title: string;
     service: string;
     severity: Severity;
   }): Promise<IncidentView>;
   resolveIncident(input: { id: number }): Promise<IncidentView>;
+  listIncidents?(filter?: IncidentFilter): Promise<IncidentView[]>;
+  getRunbook?(service: string): Promise<RunbookView>;
   ensureService(name: string): Promise<ServiceRecord>;
   ensureAlert(input: {
     service: string;
@@ -106,7 +133,8 @@ async function toIncidentView(
 
 export function createAlertStore(repos: StoreRepos): AlertStore {
   return {
-    async listAlerts({ status }) {
+    async listAlerts(filter?: { status?: AlertStatus }) {
+      const status = filter?.status;
       const alerts = await repos.alerts.list(status);
       const views: AlertView[] = [];
       for (const alert of alerts) {
@@ -144,6 +172,46 @@ export function createAlertStore(repos: StoreRepos): AlertStore {
       }
       const updated = await repos.incidents.markResolved(id, new Date());
       return toIncidentView(repos, updated);
+    },
+
+    async listIncidents(filter?: IncidentFilter) {
+      const normalized =
+        typeof filter === "string"
+          ? filter
+          : filter?.status ?? "open";
+
+      if (repos.incidents.list) {
+        const records = await repos.incidents.list(normalized);
+        const views: IncidentView[] = [];
+        for (const record of records) {
+          views.push(await toIncidentView(repos, record));
+        }
+        return views;
+      }
+      return [];
+    },
+
+    async getRunbook(service: string) {
+      const trimmed = service.trim();
+      if (!trimmed) {
+        throw new NotFoundError("O nome do serviço não pode ser vazio.");
+      }
+      const found = await repos.services.findByName(trimmed);
+      if (!found) {
+        throw new NotFoundError(`Serviço não encontrado: ${trimmed}`);
+      }
+      const runbook = repos.runbooks
+        ? await repos.runbooks.findByServiceId(found.id)
+        : null;
+      if (!runbook) {
+        throw new NotFoundError(`Runbook não encontrado para o serviço: ${trimmed}`);
+      }
+      return {
+        id: runbook.id,
+        service: trimmed,
+        name: runbook.name,
+        steps: runbook.steps,
+      };
     },
 
     async ensureService(name) {

@@ -11,12 +11,19 @@ import {
 import type {
   CritiqueResult,
   ReasoningStrategy,
+  StrategyInput,
   StrategyResult,
   TraceEvent,
 } from "./types.js";
+import { composeChatPrompt } from "../services/compose-chat-prompt.js";
 
 function createFakeStrategy(
-  responses: Array<{ answer: string; trace: TraceEvent[]; llmCalls?: number }>,
+  responses: Array<{
+    answer: string;
+    trace: TraceEvent[];
+    llmCalls?: number;
+    promptTokens?: number;
+  }>,
 ): ReasoningStrategy & { inputsReceived: string[] } {
   const inputsReceived: string[] = [];
   let callIndex = 0;
@@ -24,8 +31,8 @@ function createFakeStrategy(
   return {
     name: "fake-strategy",
     inputsReceived,
-    async run(input: string): Promise<StrategyResult> {
-      inputsReceived.push(input);
+    async run(input: StrategyInput): Promise<StrategyResult> {
+      inputsReceived.push(composeChatPrompt(input));
       const current = responses[callIndex] ?? responses[responses.length - 1]!;
       callIndex += 1;
       return {
@@ -34,22 +41,43 @@ function createFakeStrategy(
         metrics: {
           llmCalls: current.llmCalls ?? 1,
           latencyMs: 10,
+          promptTokens: current.promptTokens ?? 0,
         },
       };
     },
   };
 }
 
-function createFakeModel(verdicts: CritiqueResult[]) {
+function createFakeModel(
+  verdicts: CritiqueResult[],
+  options?: { criticPromptTokens?: number },
+) {
   let index = 0;
+  const criticPromptTokens = options?.criticPromptTokens;
   return {
     withStructuredOutput(_schema: unknown) {
       return {
-        async invoke(_messages: unknown, options?: { callbacks?: Array<{ handleLLMStart?: () => void }> }) {
+        async invoke(
+          _messages: unknown,
+          invokeOptions?: {
+            callbacks?: Array<{
+              handleLLMStart?: () => void;
+              handleLLMEnd?: (output: unknown) => void | Promise<void>;
+            }>;
+          },
+        ) {
           const verdict = verdicts[index] ?? verdicts[verdicts.length - 1]!;
           index += 1;
-          for (const cb of options?.callbacks ?? []) {
+          for (const cb of invokeOptions?.callbacks ?? []) {
             cb?.handleLLMStart?.();
+            if (criticPromptTokens !== undefined) {
+              await cb?.handleLLMEnd?.({
+                llmOutput: {
+                  tokenUsage: { promptTokens: criticPromptTokens },
+                },
+                generations: [],
+              });
+            }
           }
           return verdict;
         },
@@ -239,5 +267,33 @@ describe("withReflection", () => {
     assert.equal(result.answer, "Resposta direta");
     assert.equal(result.metrics.llmCalls, 1);
     assert.equal(result.trace.filter((e) => e.type === "critique").length, 0);
+  });
+
+  it("soma promptTokens das voltas da base e do crítico", async () => {
+    const fakeStrategy = createFakeStrategy([
+      {
+        answer: "ok",
+        trace: [
+          { type: "observation", content: "obs" },
+          { type: "answer", content: "ok" },
+        ],
+        llmCalls: 2,
+        promptTokens: 100,
+      },
+    ]);
+
+    const fakeModel = createFakeModel(
+      [{ approved: true, feedback: "ok" }],
+      { criticPromptTokens: 30 },
+    );
+
+    const reflected = withReflection(
+      fakeStrategy,
+      { maxReflections: 1 },
+      { model: fakeModel as never },
+    );
+
+    const result = await reflected.run("pedido");
+    assert.equal(result.metrics.promptTokens, 130);
   });
 });

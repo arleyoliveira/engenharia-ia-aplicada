@@ -45,6 +45,16 @@ export class ModelOutputError extends DomainError {
   }
 }
 
+/** Primário e reserva esgotaram as tentativas de chamada ao modelo. */
+export class ModelUnavailableError extends DomainError {
+  constructor() {
+    super(
+      "MODEL_UNAVAILABLE",
+      "O modelo de linguagem está indisponível.",
+    );
+  }
+}
+
 /** Execução de chat excedeu o tempo máximo permitido na borda HTTP. */
 export class ChatTimeoutError extends DomainError {
   constructor(timeoutMs: number) {

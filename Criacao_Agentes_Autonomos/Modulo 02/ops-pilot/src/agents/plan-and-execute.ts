@@ -9,14 +9,16 @@ import type { BaseCallbackHandler } from "@langchain/core/callbacks/base";
 import { z } from "zod";
 import type {
   ReasoningStrategy,
+  StrategyInput,
   StrategyResult,
   StrategyRunOptions,
   TraceEvent,
 } from "./types.js";
-import { createModel } from "./model.js";
+import { createModel, runCollectingFallbacks } from "./model.js";
 import { createDefaultOpsTools } from "./tools.js";
 import { createLlmCallCounter } from "./metrics.js";
-import { ModelOutputError } from "../errors.js";
+import { ModelOutputError, ModelUnavailableError } from "../errors.js";
+import { composeChatPrompt } from "../services/compose-chat-prompt.js";
 
 const STRUCTURED_OUTPUT_RETRIES = 1;
 
@@ -39,6 +41,9 @@ async function invokeStructured<T>(
       }
       lastError = undefined;
     } catch (error) {
+      if (error instanceof ModelUnavailableError) {
+        throw error;
+      }
       lastError = error;
     }
   }
@@ -118,12 +123,14 @@ export function createPlanAndExecuteStrategy(config?: {
   return {
     name: strategyName,
     async run(
-      input: string,
+      input: StrategyInput,
       options?: StrategyRunOptions,
     ): Promise<StrategyResult> {
+      return runCollectingFallbacks(async () => {
       const started = performance.now();
       const counter = createLlmCallCounter();
       const model = createModel();
+      const objective = composeChatPrompt(input);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const opsTools = (options?.tools ?? config?.tools ?? (await createDefaultOpsTools())) as any[];
       const tools = [...opsTools];
@@ -134,10 +141,10 @@ export function createPlanAndExecuteStrategy(config?: {
       // functionCalling é mais compatível entre provedores OpenRouter do que o
       // método jsonSchema (default para modelos não-OpenAI), que retorna vazio
       // em modelos sem suporte a response_format estrito.
-      const planner = model.withStructuredOutput(planSchema, {
+      const planner = model.withStructuredOutput<z.infer<typeof planSchema>>(planSchema, {
         method: "functionCalling",
       });
-      const replanner = model.withStructuredOutput(replanSchema, {
+      const replanner = model.withStructuredOutput<z.infer<typeof replanSchema>>(replanSchema, {
         method: "functionCalling",
       });
       const executorModel = model.bindTools(tools);
@@ -305,7 +312,7 @@ export function createPlanAndExecuteStrategy(config?: {
       const graph = graphBuilder.compile();
 
       const final = await graph.invoke({
-        input,
+        input: objective,
         plan: [],
         pastSteps: [],
         response: "",
@@ -327,8 +334,10 @@ export function createPlanAndExecuteStrategy(config?: {
         metrics: {
           llmCalls: counter.calls,
           latencyMs: Math.round(performance.now() - started),
+          promptTokens: counter.promptTokens,
         },
       };
+      });
     },
   };
 }
