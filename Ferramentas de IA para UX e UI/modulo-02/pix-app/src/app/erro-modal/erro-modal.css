@@ -1,0 +1,135 @@
+:host {
+  display: contents;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-medium);
+  z-index: 1000;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-primary);
+  opacity: 0.75;
+}
+
+.modal-dialog {
+  position: relative;
+  width: 100%;
+  max-width: calc(var(--spacing-extra-large) * 15);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  border: 2px solid var(--color-error);
+  border-radius: var(--spacing-medium);
+  padding: var(--spacing-large);
+  box-shadow: 0 var(--spacing-small) var(--spacing-large) var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  font-family: var(--font-family-body);
+  z-index: 1;
+}
+
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-small);
+}
+
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+}
+
+.modal-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-error);
+  line-height: 1;
+}
+
+.modal-title {
+  font-family: var(--font-family-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-error);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.modal-close-icon-btn {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 1.5rem;
+  line-height: 1;
+  padding: var(--spacing-small);
+  border-radius: var(--spacing-small);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.modal-close-icon-btn:hover {
+  background-color: var(--color-background-light);
+  color: var(--color-error);
+}
+
+.modal-close-icon-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+}
+
+.modal-body {
+  margin: 0;
+}
+
+.modal-message {
+  font-family: var(--font-family-body);
+  font-size: 1rem;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--spacing-small);
+}
+
+.modal-action-btn {
+  background-color: var(--color-error);
+  color: var(--color-text-dark);
+  font-family: var(--font-family-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--spacing-small);
+  padding: var(--spacing-small) var(--spacing-large);
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.1s ease;
+}
+
+.modal-action-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.modal-action-btn:active {
+  transform: translateY(0);
+}
+
+.modal-action-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+}

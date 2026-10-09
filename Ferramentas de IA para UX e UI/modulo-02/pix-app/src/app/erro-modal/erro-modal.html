@@ -1,0 +1,67 @@
+@if (isVisible()) {
+  <div class="modal-overlay">
+    <div
+      class="modal-backdrop"
+      (click)="closeModal()"
+      aria-hidden="true"
+    ></div>
+
+    <div
+      #modalDialog
+      class="modal-dialog"
+      role="alertdialog"
+      aria-modal="true"
+      [attr.aria-labelledby]="titleId"
+      [attr.aria-describedby]="messageId"
+      tabindex="-1"
+    >
+      <header class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon" aria-hidden="true">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </span>
+          <h2 [id]="titleId" class="modal-title">{{ title }}</h2>
+        </div>
+
+        <button
+          type="button"
+          class="modal-close-icon-btn"
+          (click)="closeModal()"
+          aria-label="Fechar mensagem de erro"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </header>
+
+      <section class="modal-body">
+        <p [id]="messageId" class="modal-message">{{ message }}</p>
+      </section>
+
+      <footer class="modal-footer">
+        <button
+          #primaryButton
+          type="button"
+          class="modal-action-btn"
+          (click)="closeModal()"
+          aria-label="Fechar mensagem de erro"
+        >
+          Fechar
+        </button>
+      </footer>
+    </div>
+  </div>
+}

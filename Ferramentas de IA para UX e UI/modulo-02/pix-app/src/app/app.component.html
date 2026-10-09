@@ -1,0 +1,54 @@
+<div class="app-layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-badge">PIX</div>
+      <h1 class="brand-title">PixApp</h1>
+    </div>
+
+    <nav class="navigation">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="nav-link"
+          >
+            <span class="nav-icon" aria-hidden="true">❖</span>
+            <span class="nav-label">Transferência Pix</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="theme-switcher">
+      <span class="theme-title">Tema de Cores</span>
+      <div class="theme-btn-group" role="group" aria-label="Escolha entre tema claro ou escuro">
+        <button
+          type="button"
+          class="theme-btn"
+          [class.active]="currentTheme() === 'light'"
+          (click)="setTheme('light')"
+          aria-label="Selecionar tema claro"
+        >
+          <span class="theme-icon" aria-hidden="true">☀️</span>
+          <span>Claro</span>
+        </button>
+        <button
+          type="button"
+          class="theme-btn"
+          [class.active]="currentTheme() === 'dark'"
+          (click)="setTheme('dark')"
+          aria-label="Selecionar tema escuro"
+        >
+          <span class="theme-icon" aria-hidden="true">🌙</span>
+          <span>Escuro</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,52 @@
+{
+    "PIX_API_CONNECTION_ERROR": {
+      "title": "Erro de conexão",
+      "message": "Não foi possível carregar os contatos. Verifique sua internet.",
+      "action_label": "Tentar novamente"
+    },
+    "PIX_EMPTY_CONTACTS": {
+      "title": "Nenhum contato encontrado",
+      "message": "Você ainda não tem contatos salvos para agendar transferências.",
+      "action_label": "Adicionar contato"
+    },
+    "PIX_LIMIT_EXCEEDED": {
+      "title": "Valor acima do limite",
+      "message": "O limite diário para esta operação é R$ 5.000,00.",
+      "action_label": "Ajustar valor"
+    },
+    "PIX_INSUFFICIENT_FUNDS": {
+      "title": "Saldo insuficiente",
+      "message": "O saldo atual não cobre o valor da transferência agendada.",
+      "action_label": "Ver saldo"
+    },
+    "PIX_INVALID_DATE_TODAY": {
+      "title": "Data não permitida",
+      "message": "Para transferências hoje, utilize a opção de Pix normal.",
+      "action_label": "Alterar data"
+    },
+    "PIX_DATE_OUT_OF_RANGE": {
+      "title": "Data indisponível",
+      "message": "O agendamento deve ser feito dentro do prazo máximo permitido.",
+      "action_label": "Escolher outra data"
+    },
+    "PIX_INVALID_PASSWORD": {
+      "title": "Senha incorreta",
+      "message": "A senha informada não confere. Tente novamente.",
+      "action_label": "Digitar senha"
+    },
+    "PIX_SYSTEM_TIMEOUT": {
+      "title": "Tempo excedido",
+      "message": "Não foi possível processar seu agendamento no momento.",
+      "action_label": "Tentar novamente"
+    },
+    "PIX_SCHEDULE_SUCCESS": {
+      "title": "Agendamento realizado",
+      "message": "Sua Transferência foi agendada com sucesso para a data escolhida.",
+      "action_label": "Ver comprovante"
+    },
+    "PIX_CANCEL_SUCCESS": {
+      "title": "Agendamento cancelado",
+      "message": "O agendamento foi cancelado e nenhuma transferência será feita.",
+      "action_label": "Entendido"
+    }
+  }
