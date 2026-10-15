@@ -1,0 +1,20 @@
+Top 5 Most Sold Products:
+
+1. **Beans**: 4 units sold
+   - Price per unit: $6.99
+
+2. **Shampoo**: 1 unit sold
+   - Price per unit: $10.99
+
+3. **Soap**: 1 unit sold
+   - Price per unit: $5.49
+
+4. **Toothpaste**: 1 unit sold
+   - Price per unit: $3.99
+
+5. **Rice**: 1 unit sold
+   - Price per unit: $22.90
+
+Summary:
+- **Beans** is the top-selling product with 4 units sold, significantly outperforming the other products.
+- All other products (Shampoo, Soap, Toothpaste, and Rice) were sold only once each.

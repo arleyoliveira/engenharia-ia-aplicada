@@ -1,0 +1,136 @@
+/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200');
+
+/* Configuração base para ícones Material Symbols */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', sans-serif;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+:root {
+  /* Suporte nativo a esquema de cores claro/escuro do navegador */
+  color-scheme: light dark;
+
+  /* Cores Principais / Marca */
+  --color-primary: #0A192F;
+  --color-accent-light: #065F46;
+  --color-accent-dark: #64FFDA;
+  --color-accent: var(--color-accent-dark);
+  --color-accent-text: light-dark(var(--color-accent-light), var(--color-accent-dark));
+  --color-action-primary: #64FFDA;
+  --color-error: #FF6B6B;
+
+  /* Badges e Selos Acessíveis (WCAG AA/AAA) */
+  --color-badge-text-light: #065F46;
+  --color-badge-text-dark: #64FFDA;
+  --color-badge-text: light-dark(var(--color-badge-text-light), var(--color-badge-text-dark));
+  --color-badge-bg: light-dark(
+    color-mix(in srgb, var(--color-badge-text-light) 12%, transparent),
+    color-mix(in srgb, var(--color-accent-dark) 15%, transparent)
+  );
+  --color-badge-border: light-dark(
+    color-mix(in srgb, var(--color-badge-text-light) 28%, transparent),
+    color-mix(in srgb, var(--color-accent-dark) 30%, transparent)
+  );
+
+  /* Cores de Superfície / Fundo por Tema */
+  --color-background-light: #F8F9FA;
+  --color-background-dark: #112240;
+  --color-background: var(--color-background-light);
+  --color-background: light-dark(var(--color-background-light), var(--color-background-dark));
+
+  /* Cores de Tipografia / Texto por Tema */
+  --color-text-light: #112240;
+  --color-text-dark: #FFFFFF;
+  --color-text: var(--color-text-light);
+  --color-text: light-dark(var(--color-text-light), var(--color-text-dark));
+
+  /* Feedback e Status */
+  --color-success: #10B981;
+  --color-border: #E2E8F0;
+  --color-text-muted: #64748B;
+
+  /* Tipografia */
+  --font-family-heading: 'Montserrat', sans-serif;
+  --font-family-body: 'Inter', sans-serif;
+
+  /* Escala de Espaçamento (Múltiplos de 4px) */
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+  --spacing-extra-large: 32px;
+
+  /* Aliases da Escala de Espaçamento */
+  --spacing-sm: var(--spacing-small);
+  --spacing-md: var(--spacing-medium);
+  --spacing-lg: var(--spacing-large);
+  --spacing-xl: var(--spacing-extra-large);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: var(--color-background-dark);
+    --color-text: var(--color-text-dark);
+    --color-border: color-mix(in srgb, var(--color-text-dark) 14%, transparent);
+    --color-text-muted: #94A3B8;
+    --color-accent: var(--color-accent-dark);
+    --color-accent-text: var(--color-accent-dark);
+    --color-badge-text: var(--color-badge-text-dark);
+    --color-badge-bg: color-mix(in srgb, var(--color-accent-dark) 15%, transparent);
+    --color-badge-border: color-mix(in srgb, var(--color-accent-dark) 30%, transparent);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-background: var(--color-background-dark);
+  --color-text: var(--color-text-dark);
+  --color-border: color-mix(in srgb, var(--color-text-dark) 14%, transparent);
+  --color-text-muted: #94A3B8;
+  --color-accent: var(--color-accent-dark);
+  --color-accent-text: var(--color-accent-dark);
+  --color-badge-text: var(--color-badge-text-dark);
+  --color-badge-bg: color-mix(in srgb, var(--color-accent-dark) 15%, transparent);
+  --color-badge-border: color-mix(in srgb, var(--color-accent-dark) 30%, transparent);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-background: var(--color-background-light);
+  --color-text: var(--color-text-light);
+  --color-border: #E2E8F0;
+  --color-text-muted: #64748B;
+  --color-accent: var(--color-accent-light);
+  --color-accent-text: var(--color-accent-light);
+  --color-badge-text: var(--color-badge-text-light);
+  --color-badge-bg: color-mix(in srgb, var(--color-badge-text-light) 12%, transparent);
+  --color-badge-border: color-mix(in srgb, var(--color-badge-text-light) 28%, transparent);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+  margin: 0;
+  line-height: 1.5;
+}
+

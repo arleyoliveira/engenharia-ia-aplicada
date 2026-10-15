@@ -1,0 +1,84 @@
+<div class="history-wrapper">
+  <section class="history-card" aria-labelledby="history-title">
+    <!-- Cabeçalho do Extrato -->
+    <header class="history-header">
+      <div class="history-badge">HISTÓRICO PIX</div>
+      <div class="header-titles">
+        <h1 id="history-title" class="history-title">Extrato Pix</h1>
+        <p class="history-subtitle">Confira suas últimas movimentações</p>
+      </div>
+    </header>
+
+    <!-- Conteúdo do Extrato -->
+    <div class="history-content">
+      <div class="section-divider-header">
+        <span class="section-label" id="recent-transactions-label">RECENTES</span>
+      </div>
+
+      <!-- Componente: PixHistoryList -->
+      <ul class="pix-history-list" role="list" aria-labelledby="recent-transactions-label">
+        @for (tx of transactions(); track tx.id) {
+          <!-- Componente: TransactionItem -->
+          <li class="transaction-item">
+            <div class="transaction-details">
+              <div
+                class="icon-wrapper"
+                [class.received]="tx.type === 'received'"
+                [class.sent]="tx.type === 'sent'"
+                aria-hidden="true"
+              >
+                <span class="material-symbols-outlined transaction-icon">
+                  @if (tx.type === 'received') {
+                    arrow_upward
+                  } @else {
+                    arrow_downward
+                  }
+                </span>
+              </div>
+
+              <div class="transaction-text">
+                <span class="transaction-title">{{ tx.title }}</span>
+                <span class="transaction-date">{{ tx.date }}</span>
+              </div>
+            </div>
+
+            <span
+              class="transaction-amount"
+              [class.positive]="tx.type === 'received'"
+              [class.negative]="tx.type === 'sent'"
+              [attr.aria-label]="
+                (tx.type === 'received' ? 'Valor recebido: ' : 'Valor enviado: ') +
+                formatAmount(tx.amount, tx.type)
+              "
+            >
+              {{ formatAmount(tx.amount, tx.type) }}
+            </span>
+          </li>
+        } @empty {
+          <li class="empty-state">
+            <p>Nenhuma transação encontrada no período.</p>
+          </li>
+        }
+      </ul>
+
+      <!-- Ação de Relatório -->
+      <div class="history-actions">
+        <button
+          type="button"
+          class="btn-report"
+          (click)="generateReport()"
+          aria-label="Gerar novo relatório de extrato"
+        >
+          <span class="material-symbols-outlined btn-icon" aria-hidden="true">description</span>
+          <span>
+            @if (reportGenerated()) {
+              Relatório Gerado com Sucesso!
+            } @else {
+              Gerar Novo Relatório
+            }
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

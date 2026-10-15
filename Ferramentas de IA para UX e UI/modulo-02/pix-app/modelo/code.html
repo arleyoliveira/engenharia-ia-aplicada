@@ -1,0 +1,179 @@
+<!DOCTYPE html><html class="dark" lang="pt-BR"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"surface":"#0f131d","primary-fixed-dim":"#00e290","on-tertiary-fixed":"#21005e","background":"#0f131d","primary-fixed":"#52ffac","surface-container-high":"#262a35","on-primary-fixed":"#002111","primary":"#f5fff5","secondary-container":"#00a6e0","surface-container-low":"#171b26","on-secondary-fixed":"#001e2c","tertiary-container":"#e6daff","on-error":"#690005","on-surface-variant":"#b9cbbd","on-primary":"#003920","secondary-fixed-dim":"#7bd0ff","secondary-fixed":"#c4e7ff","on-error-container":"#ffdad6","outline-variant":"#3a4a3f","tertiary-fixed-dim":"#cebdff","on-secondary-container":"#00374d","on-surface":"#dfe2f1","surface-variant":"#313540","surface-container":"#1b1f2a","on-secondary-fixed-variant":"#004c69","inverse-primary":"#006d43","secondary":"#7bd0ff","surface-tint":"#00e290","on-primary-fixed-variant":"#005231","inverse-on-surface":"#2c303b","on-primary-container":"#007146","surface-container-highest":"#313540","primary-container":"#00ffa3","error":"#ffb4ab","on-tertiary-fixed-variant":"#4f319c","tertiary-fixed":"#e8ddff","error-container":"#93000a","on-tertiary":"#381385","on-background":"#dfe2f1","on-tertiary-container":"#6b4fba","surface-container-lowest":"#0a0e18","tertiary":"#fffbff","outline":"#849588","inverse-surface":"#dfe2f1","on-secondary":"#00354a","surface-dim":"#0f131d","surface-bright":"#353944"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"gutter-desktop":"1.5rem","space-xs":"0.25rem","margin-desktop":"3rem","space-xl":"2.5rem","space-sm":"0.5rem","space-md":"1rem","margin":"1rem","margin-tablet":"2rem","gutter":"1rem","space-lg":"1.5rem"},"fontFamily":{"headline-md":["Space Grotesk"],"label-md":["JetBrains Mono"],"label-lg":["JetBrains Mono"],"headline-lg-mobile":["Space Grotesk"],"headline-lg":["Space Grotesk"],"body-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"label-sm":["JetBrains Mono"],"headline-xl-mobile":["Space Grotesk"],"body-sm":["Plus Jakarta Sans"],"headline-xl":["Space Grotesk"]},"fontSize":{"headline-md":["22px",{"lineHeight":"28px","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.04em","fontWeight":"500"}],"label-lg":["14px",{"lineHeight":"20px","letterSpacing":"0.02em","fontWeight":"500"}],"headline-lg-mobile":["24px",{"lineHeight":"32px","letterSpacing":"-0.01em","fontWeight":"600"}],"headline-lg":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"600"}],"body-lg":["18px",{"lineHeight":"28px","fontWeight":"400"}],"body-md":["15px",{"lineHeight":"24px","fontWeight":"400"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.06em","fontWeight":"500"}],"headline-xl-mobile":["32px",{"lineHeight":"40px","letterSpacing":"-0.02em","fontWeight":"700"}],"body-sm":["13px",{"lineHeight":"20px","fontWeight":"400"}],"headline-xl":["44px",{"lineHeight":"52px","letterSpacing":"-0.03em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen relative selection:bg-primary-container selection:text-on-primary-container"><div class="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(0,255,163,0.06),rgba(15,19,29,0))]"></div><main class="relative z-10 w-full bg-background max-w-7xl mx-auto px-6 lg:px-12 min-h-screen flex flex-col justify-center py-12"><div class="flex flex-col w-full items-center justify-center py-6 md:py-10 relative">
+<div class="absolute -top-12 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary-container/10 rounded-full blur-[110px] pointer-events-none"></div>
+<div class="absolute top-1/3 left-1/4 w-72 h-72 bg-secondary-container/5 rounded-full blur-[90px] pointer-events-none"></div>
+<!-- Breadcrumb & Status Top Pill -->
+<div class="flex items-center gap-3 mb-6 z-10">
+<div class="flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface-container-high/80 backdrop-blur-md shadow-sm">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-primary-container tracking-wider uppercase">Transação Efetivada • BACEN SPI</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant/60 hidden sm:inline">Protocolo #849.204.11</span>
+</div>
+<!-- Main Voucher Container (560px max width for desktop authority) -->
+<div class="w-full max-w-[560px] bg-surface-container-low/90 backdrop-blur-2xl rounded-2xl shadow-[0_24px_50px_rgba(0,0,0,0.55),0_0_40px_rgba(0,255,163,0.06)] relative z-10 overflow-hidden flex flex-col">
+<!-- Top Glowing Laser Bar Indicator -->
+<div class="w-full h-1 bg-gradient-to-r from-transparent via-primary-container to-transparent opacity-90"></div>
+<!-- Header Section with Radiant Glow & Hero Check -->
+<div class="px-8 pt-9 pb-6 flex flex-col items-center text-center relative">
+<div class="relative mb-5 flex items-center justify-center">
+<div class="absolute inset-0 rounded-full bg-primary-container/20 blur-xl scale-125"></div>
+<div class="w-16 h-16 rounded-full bg-surface-container-high flex items-center justify-center relative shadow-[0_0_24px_rgba(0,255,163,0.35)]">
+<span class="material-symbols-outlined text-primary-container text-[34px]" style="font-variation-settings: 'FILL' 1, 'wght' 600;">check_circle</span>
+</div>
+</div>
+<span class="font-label-md text-label-md text-primary-fixed-dim uppercase tracking-widest mb-1.5 font-semibold">Comprovante de Envio</span>
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-tight">Transferência PIX realizada!</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">O valor foi creditado instantaneamente na conta de destino.</p>
+</div>
+<!-- Prominent Amount Display Display Container -->
+<div class="mx-8 px-6 py-5 rounded-xl bg-surface-container/70 flex flex-col items-center justify-center text-center relative shadow-inner">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Valor transferido</span>
+<div class="flex items-baseline gap-1.5">
+<span class="font-headline-md text-headline-md text-primary-container font-medium">R$</span>
+<span class="font-headline-xl text-headline-xl text-primary font-bold tracking-tight">150,00</span>
+</div>
+<div class="flex items-center gap-1.5 mt-2 text-primary-fixed-dim">
+<span class="material-symbols-outlined text-[15px]">verified</span>
+<span class="font-label-sm text-label-sm tracking-wide">Liquidação imediata sem tarifas</span>
+</div>
+</div>
+<!-- Structured Transaction Information Sheet -->
+<div class="px-8 py-6 space-y-4">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Origem</span>
+<span class="font-body-md text-body-md text-on-surface font-medium text-right">Lucas Albuquerque • Vélix S.A.</span>
+</div>
+<div class="w-full h-px bg-surface-variant/40"></div>
+<!-- Destinatário Details -->
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Destinatário</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant/70 mt-0.5">Favorecido Final</span>
+</div>
+<div class="flex flex-col items-end text-right">
+<span class="font-body-md text-body-md text-on-surface font-semibold">Arley O Mota</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant tracking-wider mt-0.5">CPF •••.459.802-••</span>
+</div>
+</div>
+<div class="w-full h-px bg-surface-variant/40"></div>
+<!-- Instituição Financeira -->
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Instituição</span>
+<div class="flex items-center gap-2">
+<div class="w-5 h-5 rounded-full bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-[13px] text-secondary">account_balance</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface">FinTech Pagamentos S.A.</span>
+</div>
+</div>
+<div class="w-full h-px bg-surface-variant/40"></div>
+<!-- Data e Horário -->
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Data e Horário</span>
+<span class="font-body-md text-body-md text-on-surface font-mono">18 de Outubro de 2024 às 14:32:05</span>
+</div>
+<div class="w-full h-px bg-surface-variant/40"></div>
+<!-- Tipo de Pagamento -->
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Modalidade</span>
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-surface-container-high">
+<span class="material-symbols-outlined text-[14px] text-primary-container">bolt</span>
+<span class="font-label-sm text-label-sm text-on-surface">PIX Transferência Instantânea</span>
+</div>
+</div>
+<div class="w-full h-px bg-surface-variant/40"></div>
+<!-- ID da Transação / E2E Autenticação -->
+<div class="flex flex-col gap-1.5 bg-surface-container-lowest/60 p-3.5 rounded-xl">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Código de Autenticação / ID E2E</span>
+<button class="flex items-center gap-1 text-primary-fixed-dim hover:text-primary-container transition-colors group cursor-pointer" id="copy-btn" onclick="copyTransactionId()" title="Copiar código">
+<span class="material-symbols-outlined text-[15px] group-hover:scale-110 transition-transform">content_copy</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider" id="copy-text">Copiar</span>
+</button>
+</div>
+<p class="font-label-md text-label-md text-secondary break-all font-mono select-all" id="tx-id">E18236120202410181432A90F84B02A7</p>
+</div>
+</div>
+<!-- Security Micro-Banner Inside Card -->
+<div class="mx-8 py-3 px-4 rounded-lg bg-surface-container/40 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary-container text-[18px]">verified_user</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Assinado digitalmente por Vélix S.A.</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant/60">SHA-256</span>
+</div>
+<!-- Secondary Utility Quick-Actions (Ghost/Outlined style via background shift) -->
+<div class="px-8 pt-5 pb-3 grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-all text-on-surface font-body-sm text-body-sm font-medium shadow-sm hover:shadow active:scale-[0.98] cursor-pointer" onclick="simulateShare()">
+<span class="material-symbols-outlined text-[18px] text-secondary">share</span>
+<span class="">Compartilhar</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high transition-all text-on-surface font-body-sm text-body-sm font-medium shadow-sm hover:shadow active:scale-[0.98] cursor-pointer" onclick="simulateDownload()">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed-dim">download</span>
+<span class="">Salvar em PDF</span>
+</button>
+</div>
+<!-- Footer Primary Return Button -->
+<div class="p-8 pt-3">
+<button class="w-full py-3.5 px-6 rounded-xl bg-primary-container hover:bg-primary-fixed text-on-primary-container hover:text-on-primary font-headline-md text-[16px] font-bold tracking-tight transition-all duration-200 flex items-center justify-center gap-2 shadow-[0_0_24px_rgba(0,255,163,0.3)] hover:shadow-[0_0_32px_rgba(0,255,163,0.5)] active:scale-[0.99] cursor-pointer" onclick="window.history.back()">
+<span class="">Voltar ao Início</span>
+<span class="material-symbols-outlined text-[19px]">arrow_forward</span>
+</button>
+<div class="text-center mt-3">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors tracking-wide underline underline-offset-4" href="#">Fazer outra transferência PIX</a>
+</div>
+</div>
+</div>
+<!-- Notification Toast on Copy (hidden by default) -->
+<div class="fixed bottom-8 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-surface-container-highest/95 backdrop-blur-md shadow-2xl text-on-surface" id="toast">
+<span class="material-symbols-outlined text-primary-container text-[18px]">check_circle</span>
+<span class="font-body-sm text-body-sm font-medium" id="toast-message">Código copiado com sucesso!</span>
+</div>
+</div>
+<script>
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    if (!toast || !toastMsg) return;
+    toastMsg.innerText = msg;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    toast.classList.add('translate-y-0', 'opacity-100');
+    setTimeout(() => {
+      toast.classList.add('translate-y-20', 'opacity-0');
+      toast.classList.remove('translate-y-0', 'opacity-100');
+    }, 2800);
+  }
+
+  function copyTransactionId() {
+    const text = document.getElementById('tx-id')?.innerText || 'E18236120202410181432A90F84B02A7';
+    navigator.clipboard?.writeText(text).then(() => {
+      const copyLabel = document.getElementById('copy-text');
+      if (copyLabel) copyLabel.innerText = 'Copiado!';
+      showToast('ID PIX copiado para a área de transferência');
+      setTimeout(() => {
+        if (copyLabel) copyLabel.innerText = 'Copiar';
+      }, 2000);
+    }).catch(() => {
+      showToast('Código selecionado para cópia');
+    });
+  }
+
+  function simulateShare() {
+    if (navigator.share) {
+      navigator.share({
+        title: 'Comprovante PIX Vélix',
+        text: 'Comprovante de Transferência PIX de R$ 150,00 para Arley O Mota.',
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      showToast('Link do comprovante copiado para compartilhamento!');
+    }
+  }
+
+  function simulateDownload() {
+    showToast('Gerando PDF autenticado... O download iniciará em instantes.');
+  }
+</script></main>
+
+</body></html>

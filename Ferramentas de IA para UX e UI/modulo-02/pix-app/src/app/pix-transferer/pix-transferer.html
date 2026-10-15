@@ -1,0 +1,78 @@
+@if (!isSubmitted()) {
+  <div class="pix-card">
+    <header class="pix-card-header">
+      <div class="pix-badge">PIX INSTANTÂNEO</div>
+      <h2 class="pix-title">Nova Transferência</h2>
+      <p class="pix-subtitle">
+        Preencha as informações abaixo para realizar ou agendar o seu Pix.
+      </p>
+    </header>
+
+    <form class="pix-form" (submit)="confirmTransfer($event)">
+      <div class="form-group">
+        <label for="pixKey" class="form-label">Chave Pix</label>
+        <input
+          id="pixKey"
+          name="pixKey"
+          type="text"
+          placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória"
+          [value]="pixKey()"
+          (input)="onPixKeyChange($event)"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="amount" class="form-label">Valor (R$)</label>
+        <input
+          id="amount"
+          name="amount"
+          type="number"
+          step="0.01"
+          min="0.01"
+          placeholder="0,00"
+          [value]="amount()"
+          (input)="onAmountChange($event)"
+          class="form-input"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="scheduledDate" class="form-label">Data de Agendamento</label>
+        <input
+          id="scheduledDate"
+          name="scheduledDate"
+          type="date"
+          [value]="scheduledDate()"
+          (input)="onScheduledDateChange($event)"
+          class="form-input"
+        />
+        <span class="form-hint">Opcional. Se não preenchido, o envio será imediato.</span>
+      </div>
+
+      <button type="submit" class="pix-submit-btn">
+        Confirmar Transferência
+      </button>
+    </form>
+  </div>
+} @else {
+  <app-pix-receipt
+    [valor]="formattedAmount()"
+    [cpf]="pixKey()"
+    [dataHora]="receiptDate()"
+    [modalidade]="modalidade()"
+    (back)="resetTransfer()"
+    (newTransfer)="resetTransfer()"
+  />
+}
+
+@if (showErrorModal()) {
+  <app-erro-modal
+    [title]="errorTitle()"
+    [message]="errorMessage()"
+    (closed)="closeErrorModal()"
+  />
+}
+

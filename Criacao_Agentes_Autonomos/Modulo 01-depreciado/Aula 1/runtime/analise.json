@@ -1,0 +1,164 @@
+{
+  "trace_id": "dde2bb3f6f81",
+  "tipo_agente": "task_based",
+  "entrada": "TRACE_ID: 178b146b90d7\nAGENTE: monitor-agent\nTIPO: interactive\nTEMPO_TOTAL: 80.07s\nTOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nETAPA 1: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 2: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 3: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nHEALTH: taxa_sucesso=0.0% circuit_breaker=1 payload_falhas=0 chamadas_llm=4\nPERF_TOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nPERF_TEMPO_TOTAL_MS: 80071\nPERF_FASE perceber: media=0.1ms max=0.1ms total=0.30000000000000004ms contagem=4\nPERF_FASE planejar: media=3030.2ms max=5552.3ms total=12120.6ms contagem=4\nRESUMO: Objetivo: desconhecido\nEtapas executadas: 4\nFerramentas chamadas: nenhuma\nResultado: encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )\nTipo: interactive",
+  "evento": null,
+  "tempo_total_segundos": 4.19,
+  "tokens_consumidos": {
+    "prompt": 791,
+    "completion": 60,
+    "total": 851
+  },
+  "etapas": [
+    {
+      "etapa": 1,
+      "percepcao": "Alerta: TRACE_ID: 178b146b90d7\nAGENTE: monitor-agent\nTIPO: interactive\nTEMPO_TOTAL: 80.07s\nTOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nETAPA 1: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 2: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 3: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nHEALTH: taxa_sucesso=0.0% circuit_breaker=1 payload_falhas=0 chamadas_llm=4\nPERF_TOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nPERF_TEMPO_TOTAL_MS: 80071\nPERF_FASE perceber: media=0.1ms max=0.1ms total=0.30000000000000004ms contagem=4\nPERF_FASE planejar: media=3030.2ms max=5552.3ms total=12120.6ms contagem=4\nRESUMO: Objetivo: desconhecido\nEtapas executadas: 4\nFerramentas chamadas: nenhuma\nResultado: encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )\nTipo: interactive\nModo: task_based\nEtapas realizadas: 1/10\nChamadas de ferramenta: 0/10",
+      "plano": {
+        "proxima_acao": "FINALIZAR",
+        "nome_ferramenta": "",
+        "argumentos_ferramenta": {},
+        "criterio_sucesso": "não há chamadas de ferramentas disponíveis, encerrando o ciclo.",
+        "pergunta": ""
+      },
+      "resultado_acao": null,
+      "avaliacao": {
+        "objetivo_alcancado": true,
+        "motivo": "não há chamadas de ferramentas disponíveis, encerrando o ciclo."
+      }
+    }
+  ],
+  "resumo": "Objetivo: desconhecido\nEtapas executadas: 1\nFerramentas chamadas: nenhuma\nResultado: não há chamadas de ferramentas disponíveis, encerrando o ciclo.\nTipo: task_based",
+  "agente": "trace-analyzer",
+  "telemetry_stream": [
+    {
+      "timestamp": "2026-08-25T09:07:08.936455",
+      "elapsed_ms": 0,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "inicio",
+      "dados": {
+        "entrada": "TRACE_ID: 178b146b90d7\nAGENTE: monitor-agent\nTIPO: interactive\nTEMPO_TOTAL: 80.07s\nTOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nETAPA 1: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 2: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nETAPA 3: acao=PERGUNTAR_USUARIO ferramenta= sucesso=True qualidade= objetivo=False motivo=aguardando resposta do usuario\nHEALTH: taxa_sucesso=0.0% circuit_breaker=1 payload_falhas=0 chamadas_llm=4\nPERF_TOKENS: {\"prompt\": 2019, \"completion\": 328, \"total\": 2347}\nPERF_TEMPO_TOTAL_MS: 80071\nPERF_FASE perceber: media=0.1ms max=0.1ms total=0.30000000000000004ms contagem=4\nPERF_FASE planejar: media=3030.2ms max=5552.3ms total=12120.6ms contagem=4\nRESUMO: Objetivo: desconhecido\nEtapas executadas: 4\nFerramentas chamadas: nenhuma\nResultado: encerrado por circuit breaker: ferramenta 'criar_indice_banco_dados' nao existe (disponiveis: )\nTipo: interactive",
+        "objetivo": "desconhecido",
+        "max_etapas": 10,
+        "max_tokens": 50000
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:08.936704",
+      "elapsed_ms": 0,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "perceber",
+        "etapa": 1,
+        "duracao_ms": 0.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:13.122372",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "planejar",
+        "etapa": 1,
+        "duracao_ms": 4185.6
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:13.122456",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "FINALIZAR",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "não há chamadas de ferramentas disponíveis, encerrando o ciclo."
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:13.122480",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "fase_concluida",
+      "dados": {
+        "fase": "avaliar",
+        "etapa": 1,
+        "duracao_ms": 0.0
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:13.122601",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "finalizado",
+      "dados": {
+        "etapas": 1,
+        "resultado": "não há chamadas de ferramentas disponíveis, encerrando o ciclo.",
+        "tokens_total": 851
+      }
+    }
+  ],
+  "audit_logs": [
+    {
+      "timestamp": "2026-08-25T09:07:13.122456",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "plano_gerado",
+      "dados": {
+        "proxima_acao": "FINALIZAR",
+        "nome_ferramenta": "",
+        "criterio_sucesso": "não há chamadas de ferramentas disponíveis, encerrando o ciclo."
+      }
+    },
+    {
+      "timestamp": "2026-08-25T09:07:13.122601",
+      "elapsed_ms": 4186,
+      "trace_id": "dde2bb3f6f81",
+      "tipo": "finalizado",
+      "dados": {
+        "etapas": 1,
+        "resultado": "não há chamadas de ferramentas disponíveis, encerrando o ciclo.",
+        "tokens_total": 851
+      }
+    }
+  ],
+  "health_metrics": {
+    "trace_id": "dde2bb3f6f81",
+    "taxa_sucesso_ferramentas": 0.0,
+    "ferramentas_sucesso": 0,
+    "ferramentas_falha": 0,
+    "circuit_breaker_ativacoes": 0,
+    "validacao_payload_falhas": 0,
+    "chamadas_llm": 1
+  },
+  "performance_data": {
+    "trace_id": "dde2bb3f6f81",
+    "tempo_total_ms": 4186,
+    "tokens": {
+      "prompt": 791,
+      "completion": 60,
+      "total": 851
+    },
+    "chamadas_llm": 1,
+    "fases": {
+      "perceber": {
+        "total_ms": 0.0,
+        "contagem": 1,
+        "max_ms": 0,
+        "media_ms": 0.0
+      },
+      "planejar": {
+        "total_ms": 4185.6,
+        "contagem": 1,
+        "max_ms": 4185.6,
+        "media_ms": 4185.6
+      },
+      "avaliar": {
+        "total_ms": 0.0,
+        "contagem": 1,
+        "max_ms": 0,
+        "media_ms": 0.0
+      }
+    }
+  }
+}
