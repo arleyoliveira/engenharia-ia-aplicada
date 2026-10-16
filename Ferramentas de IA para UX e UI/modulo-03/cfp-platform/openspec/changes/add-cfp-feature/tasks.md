@@ -2,15 +2,15 @@
 
 ## 1. Dependências e Infraestrutura do Backend
 
-- [ ] 1.1 Instalar e verificar dependências de validação (`class-validator` e `class-transformer`) no workspace através do npm.
-- [ ] 1.2 Configurar o `ValidationPipe` global no arquivo `api/src/main.ts` com as opções `whitelist: true`, `forbidNonWhitelisted: true` e `transform: true`.
+- [x] 1.1 Instalar e verificar dependências de validação (`class-validator` e `class-transformer`) no workspace através do npm.
+- [x] 1.2 Configurar o `ValidationPipe` global no arquivo `api/src/main.ts` com as opções `whitelist: true`, `forbidNonWhitelisted: true` e `transform: true`.
 
 ## 2. Implementação do Módulo Backend (NestJS)
 
-- [ ] 2.1 Criar a classe `CreateSpeakerDto` em `api/src/app/dto/create-speaker.dto.ts` implementando o contrato `SpeakerDTO` importado de `@cfp-platform/shared-types`, decorando os campos com `@IsString()`, `@IsNotEmpty()`, `@IsEmail()` e `@IsBoolean()`.
-- [ ] 2.2 Criar o `SpeakersService` em `api/src/app/speakers/speakers.service.ts` para gerenciar a criação e armazenamento das submissões de palestrantes.
-- [ ] 2.3 Criar o `SpeakersController` em `api/src/app/speakers/speakers.controller.ts` com o endpoint `@Post('speakers')` recebendo o `@Body() dto: CreateSpeakerDto` e registrá-lo no `AppModule`.
-- [ ] 2.4 Criar testes unitários com Jest em `api/src/app/speakers/speakers.controller.spec.ts` validando o fluxo de sucesso e garantindo que requisições com dados inválidos ou ausentes disparem exceções de validação (400 Bad Request), verificando com `npx nx test api`.
+- [x] 2.1 Criar a classe `CreateSpeakerDto` em `api/src/app/dto/create-speaker.dto.ts` implementando o contrato `SpeakerDTO` importado de `@cfp-platform/shared-types`, decorando os campos com `@IsString()`, `@IsNotEmpty()`, `@IsEmail()` e `@IsBoolean()`.
+- [x] 2.2 Criar o `SpeakersService` em `api/src/app/speakers/speakers.service.ts` para gerenciar a criação e armazenamento das submissões de palestrantes.
+- [x] 2.3 Criar o `SpeakersController` em `api/src/app/speakers/speakers.controller.ts` com o endpoint `@Post('speakers')` recebendo o `@Body() dto: CreateSpeakerDto` e registrá-lo no `AppModule`.
+- [x] 2.4 Criar testes unitários com Jest em `api/src/app/speakers/speakers.controller.spec.ts` validando o fluxo de sucesso e garantindo que requisições com dados inválidos ou ausentes disparem exceções de validação (400 Bad Request), verificando com `npx nx test api`.
 
 ## 3. Implementação do Módulo Frontend (Angular 21)
 
