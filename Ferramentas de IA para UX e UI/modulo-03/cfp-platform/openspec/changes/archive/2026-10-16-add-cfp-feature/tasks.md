@@ -23,5 +23,5 @@
 
 ## 4. Validação de Qualidade e Integração do Monorepo
 
-- [ ] 4.1 Executar a suíte de testes unitários de todos os projetos afetados (`npx nx run-many -t test -p api frontend shared-types`) e verificar que todos passam com 100% de sucesso.
-- [ ] 4.2 Executar a verificação de linting (`npx nx run-many -t lint -p api frontend shared-types`) e garantir conformidade de código.
+- [x] 4.1 Executar a suíte de testes unitários de todos os projetos afetados (`npx nx run-many -t test -p api frontend shared-types`) e verificar que todos passam com 100% de sucesso.
+- [x] 4.2 Executar a verificação de linting (`npx nx run-many -t lint -p api frontend shared-types`) e garantir conformidade de código.
