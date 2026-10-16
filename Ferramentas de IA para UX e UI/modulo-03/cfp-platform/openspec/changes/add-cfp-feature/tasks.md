@@ -14,12 +14,12 @@
 
 ## 3. Implementação do Módulo Frontend (Angular 21)
 
-- [ ] 3.1 Habilitar o `provideHttpClient(withFetch())` no arquivo `frontend/src/app/app.config.ts`.
-- [ ] 3.2 Criar o serviço `CfpService` em `frontend/src/app/services/cfp.service.ts` consumindo o tipo `SpeakerDTO` de `@cfp-platform/shared-types` e realizando a chamada HTTP POST para `/api/speakers`.
-- [ ] 3.3 Criar o componente standalone `CfpFormComponent` em `frontend/src/app/components/cfp-form/cfp-form.component.ts` com gerenciamento de estado baseado em Signals (`signal()` para valores dos campos e status; `computed()` para cálculo de validade e bloqueio do botão).
-- [ ] 3.4 Implementar o template acessível WAI-ARIA para o `CfpFormComponent` (`aria-required`, `aria-invalid`, `aria-describedby` apontando para alertas de erro, live region para status e bloqueio reativo do botão de envio).
-- [ ] 3.5 Integrar o `CfpFormComponent` na aplicação principal em `frontend/src/app/app.ts` e `frontend/src/app/app.html`.
-- [ ] 3.6 Criar testes unitários com Jest em `frontend/src/app/components/cfp-form/cfp-form.component.spec.ts` validando o estado inicial dos Signals (vazios/iniciais) e o bloqueio estrito do botão de envio até que os Signals correspondam a um formulário válido, verificando com `npx nx test frontend`.
+- [x] 3.1 Habilitar o `provideHttpClient(withFetch())` no arquivo `frontend/src/app/app.config.ts`.
+- [x] 3.2 Criar o serviço `CfpService` em `frontend/src/app/services/cfp.service.ts` consumindo o tipo `SpeakerDTO` de `@cfp-platform/shared-types` e realizando a chamada HTTP POST para `/api/speakers`.
+- [x] 3.3 Criar o componente standalone `CfpFormComponent` em `frontend/src/app/components/cfp-form/cfp-form.component.ts` com gerenciamento de estado baseado em Signals (`signal()` para valores dos campos e status; `computed()` para cálculo de validade e bloqueio do botão).
+- [x] 3.4 Implementar o template acessível WAI-ARIA para o `CfpFormComponent` (`aria-required`, `aria-invalid`, `aria-describedby` apontando para alertas de erro, live region para status e bloqueio reativo do botão de envio).
+- [x] 3.5 Integrar o `CfpFormComponent` na aplicação principal em `frontend/src/app/app.ts` e `frontend/src/app/app.html`.
+- [x] 3.6 Criar testes unitários com Jest em `frontend/src/app/components/cfp-form/cfp-form.component.spec.ts` validando o estado inicial dos Signals (vazios/iniciais) e o bloqueio estrito do botão de envio até que os Signals correspondam a um formulário válido, verificando com `npx nx test frontend`.
 
 ## 4. Validação de Qualidade e Integração do Monorepo
 
