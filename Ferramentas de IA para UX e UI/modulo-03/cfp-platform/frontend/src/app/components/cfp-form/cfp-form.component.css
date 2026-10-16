@@ -15,6 +15,17 @@
   border: 1px solid #e2e8f0;
 }
 
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #edf2f7;
+  padding-bottom: 1.25rem;
+}
+
 .cfp-title {
   font-size: 1.75rem;
   font-weight: 700;
@@ -26,8 +37,39 @@
 .cfp-subtitle {
   font-size: 0.95rem;
   color: #4a5568;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   line-height: 1.5;
+}
+
+.btn-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-outline {
+  border: 1.5px solid #cbd5e0;
+  background-color: #ffffff;
+  color: #2d3748;
+}
+
+.btn-outline:hover {
+  border-color: #3182ce;
+  color: #3182ce;
+  background-color: #ebf8ff;
+}
+
+.btn-outline:focus-visible {
+  outline: 3px solid #63b3ed;
+  outline-offset: 2px;
 }
 
 .required {

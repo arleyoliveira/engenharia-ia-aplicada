@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CfpFormComponent } from './components/cfp-form/cfp-form.component';
 
 @Component({
-  imports: [RouterModule, CfpFormComponent],
+  imports: [RouterModule],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',

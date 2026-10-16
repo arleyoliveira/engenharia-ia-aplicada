@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideRouter } from '@angular/router';
 import { of, throwError } from 'rxjs';
 import { CfpFormComponent } from './cfp-form.component';
 import { CfpService } from '../../services/cfp.service';
@@ -19,6 +20,7 @@ describe('CfpFormComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]),
         {
           provide: CfpService,
           useValue: {
@@ -136,5 +138,11 @@ describe('CfpFormComponent', () => {
     expect(component.isSubmitting()).toBe(false);
     expect(component.submitSuccess()).toBe(false);
     expect(component.errorMessage()).toBe('Falha no servidor');
+  });
+
+  it('should render navigation link to dashboard', () => {
+    const link = fixture.nativeElement.querySelector('a[routerLink="/dashboard"]');
+    expect(link).toBeTruthy();
+    expect(link.textContent).toContain('Ver Palestras');
   });
 });

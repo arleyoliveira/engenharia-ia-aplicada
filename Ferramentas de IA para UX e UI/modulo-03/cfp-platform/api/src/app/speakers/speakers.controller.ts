@@ -3,7 +3,7 @@ import { SpeakerDTO } from '@cfp-platform/shared-types';
 import { CreateSpeakerDto } from '../dto/create-speaker.dto';
 import { SpeakersService } from './speakers.service';
 
-@Controller('speakers')
+@Controller(['speakers', 'cfp'])
 export class SpeakersController {
   constructor(private readonly speakersService: SpeakersService) {}
 
@@ -17,3 +17,5 @@ export class SpeakersController {
     return this.speakersService.findAll();
   }
 }
+
+export { SpeakersController as CfpController };

@@ -15,4 +15,8 @@ export class CfpService {
   submitSpeaker(speaker: CreateSpeakerPayload): Observable<SpeakerDTO> {
     return this.http.post<SpeakerDTO>(this.apiUrl, speaker);
   }
+
+  getSpeakers(): Observable<SpeakerDTO[]> {
+    return this.http.get<SpeakerDTO[]>(this.apiUrl);
+  }
 }

@@ -1,0 +1,100 @@
+<section class="cfp-container" aria-labelledby="dashboard-heading">
+  <div class="cfp-card cfp-card-wide">
+    <header class="dashboard-header">
+      <div class="header-text">
+        <h2 id="dashboard-heading" class="cfp-title">Palestras Submetidas</h2>
+        <p class="cfp-subtitle">
+          Acompanhe as propostas de palestras enviadas para a conferência.
+        </p>
+      </div>
+      <div class="header-actions">
+        <a
+          routerLink="/"
+          class="btn-nav btn-outline"
+          aria-label="Voltar para o formulário de submissão"
+        >
+          <span aria-hidden="true">←</span>
+          <span>Nova Proposta</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Feedback and Status Region -->
+    <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      class="status-feedback"
+    >
+      @if (isLoading()) {
+        <div class="loading-state">
+          <span class="spinner" aria-hidden="true"></span>
+          <span>Carregando palestras submetidas...</span>
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">
+          <strong>Erro ao obter dados:</strong> {{ errorMessage() }}
+        </div>
+      }
+    </div>
+
+    <!-- Content: Table or Empty State -->
+    @if (!isLoading() && !errorMessage()) {
+      @if (speakers().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon" aria-hidden="true">📋</div>
+          <h3 class="empty-title">Nenhuma palestra submetida</h3>
+          <p class="empty-description">
+            Ainda não há propostas cadastradas no sistema. Seja o primeiro a enviar sua proposta!
+          </p>
+          <a routerLink="/" class="btn-submit btn-empty-action">
+            Enviar Proposta de Palestra
+          </a>
+        </div>
+      } @else {
+        <div class="table-responsive">
+          <table class="cfp-table">
+            <caption class="sr-only">
+              Tabela contendo a listagem das propostas de palestras submetidas
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">Palestrante</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Título da Palestra</th>
+                <th scope="col">GDE</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (speaker of speakers(); track speaker.id || speaker.email) {
+                <tr>
+                  <td class="cell-speaker">
+                    <strong>{{ speaker.nome }}</strong>
+                  </td>
+                  <td class="cell-email">{{ speaker.email }}</td>
+                  <td class="cell-title">{{ speaker.talkTitle }}</td>
+                  <td class="cell-gde">
+                    @if (speaker.isGDE) {
+                      <span class="badge badge-gde" aria-label="Google Developer Expert">
+                        ★ GDE
+                      </span>
+                    } @else {
+                      <span class="badge badge-standard">Não</span>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <footer class="table-footer">
+          <span class="total-counter">
+            Total de palestras: <strong>{{ speakers().length }}</strong>
+          </span>
+        </footer>
+      }
+    }
+  </div>
+</section>

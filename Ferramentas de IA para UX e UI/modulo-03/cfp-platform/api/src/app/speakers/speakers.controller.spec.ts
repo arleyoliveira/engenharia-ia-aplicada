@@ -49,6 +49,24 @@ describe('SpeakersController', () => {
     });
   });
 
+  describe('findAll', () => {
+    it('should return an array of SpeakerDTO', () => {
+      service.create({
+        nome: 'Grace Hopper',
+        email: 'grace@example.com',
+        talkTitle: 'Compilers and Beyond',
+        isGDE: false,
+      });
+
+      const speakers = controller.findAll();
+      expect(Array.isArray(speakers)).toBe(true);
+      expect(speakers.length).toBeGreaterThanOrEqual(1);
+      const found = speakers.find((s) => s.email === 'grace@example.com');
+      expect(found).toBeDefined();
+      expect(found?.talkTitle).toBe('Compilers and Beyond');
+    });
+  });
+
   describe('validation (400 Bad Request)', () => {
     const metadata: ArgumentMetadata = {
       type: 'body',
