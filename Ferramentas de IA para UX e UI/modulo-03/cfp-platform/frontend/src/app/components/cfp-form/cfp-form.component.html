@@ -1,0 +1,150 @@
+<section class="cfp-container" aria-labelledby="cfp-heading">
+  <div class="cfp-card">
+    <header class="form-header">
+      <div class="header-text">
+        <h2 id="cfp-heading" class="cfp-title">Call for Papers - Submissão de Palestra</h2>
+        <p class="cfp-subtitle">
+          Preencha o formulário abaixo para enviar sua proposta de palestra. Todos os campos marcados com <strong>*</strong> são obrigatórios.
+        </p>
+      </div>
+      <div class="header-actions">
+        <a routerLink="/dashboard" class="btn-nav btn-outline" aria-label="Acessar Dashboard de Palestras">
+          <span>Ver Palestras</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Feedback live region for screen readers -->
+    <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      class="status-feedback"
+    >
+      @if (submitSuccess()) {
+        <div class="alert alert-success">
+          <strong>Sucesso!</strong> Sua proposta de palestra foi enviada com sucesso!
+          @if (submittedSpeaker()?.id) {
+            <span> Identificador da proposta: <code>{{ submittedSpeaker()?.id }}</code></span>
+          }
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">
+          <strong>Erro na submissão:</strong> {{ errorMessage() }}
+        </div>
+      }
+    </div>
+
+    <form (ngSubmit)="onSubmit()" class="cfp-form" novalidate>
+      <!-- Nome Field -->
+      <div class="form-group" [class.has-error]="nomeTouched() && !isNomeValid()">
+        <label for="nome" class="form-label">
+          Nome Completo <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="nome"
+          name="nome"
+          type="text"
+          class="form-control"
+          placeholder="Ex: Maria Silva"
+          [value]="nome()"
+          (input)="nome.set($any($event.target).value)"
+          (blur)="nomeTouched.set(true)"
+          aria-required="true"
+          [attr.aria-invalid]="nomeTouched() && !isNomeValid()"
+          [attr.aria-describedby]="nomeTouched() && !isNomeValid() ? 'nome-error' : null"
+        />
+        @if (nomeTouched() && !isNomeValid()) {
+          <span id="nome-error" class="error-text" role="alert">
+            O nome é obrigatório.
+          </span>
+        }
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group" [class.has-error]="emailTouched() && !isEmailValid()">
+        <label for="email" class="form-label">
+          E-mail <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          class="form-control"
+          placeholder="Ex: maria.silva@exemplo.com"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          (blur)="emailTouched.set(true)"
+          aria-required="true"
+          [attr.aria-invalid]="emailTouched() && !isEmailValid()"
+          [attr.aria-describedby]="emailTouched() && !isEmailValid() ? 'email-error' : null"
+        />
+        @if (emailTouched() && !isEmailValid()) {
+          <span id="email-error" class="error-text" role="alert">
+            Informe um e-mail válido (ex: seu.nome&#64;dominio.com).
+          </span>
+        }
+      </div>
+
+      <!-- Talk Title Field -->
+      <div class="form-group" [class.has-error]="talkTitleTouched() && !isTalkTitleValid()">
+        <label for="talkTitle" class="form-label">
+          Título da Palestra <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="talkTitle"
+          name="talkTitle"
+          type="text"
+          class="form-control"
+          placeholder="Ex: Arquitetura Escalável com Angular Signals"
+          [value]="talkTitle()"
+          (input)="talkTitle.set($any($event.target).value)"
+          (blur)="talkTitleTouched.set(true)"
+          aria-required="true"
+          [attr.aria-invalid]="talkTitleTouched() && !isTalkTitleValid()"
+          [attr.aria-describedby]="talkTitleTouched() && !isTalkTitleValid() ? 'talkTitle-error' : null"
+        />
+        @if (talkTitleTouched() && !isTalkTitleValid()) {
+          <span id="talkTitle-error" class="error-text" role="alert">
+            O título da palestra é obrigatório.
+          </span>
+        }
+      </div>
+
+      <!-- Google Developer Expert (GDE) Checkbox Field -->
+      <div class="form-group-checkbox">
+        <label class="checkbox-label" for="isGDE">
+          <input
+            id="isGDE"
+            name="isGDE"
+            type="checkbox"
+            class="checkbox-input"
+            [checked]="isGDE()"
+            (change)="isGDE.set($any($event.target).checked)"
+          />
+          <span>Você é Google Developer Expert (GDE)?</span>
+        </label>
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="isButtonDisabled()"
+          [attr.aria-disabled]="isButtonDisabled()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Enviando proposta...</span>
+          } @else {
+            <span>Submeter Proposta</span>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</section>

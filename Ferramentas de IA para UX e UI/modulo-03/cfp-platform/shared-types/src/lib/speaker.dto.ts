@@ -1,5 +1,5 @@
 export interface SpeakerDTO {
-  id: string;
+  id?: string;
   nome: string;
   email: string;
   talkTitle: string;
