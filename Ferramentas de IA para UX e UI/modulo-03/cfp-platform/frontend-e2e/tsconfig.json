@@ -5,6 +5,10 @@
     "outDir": "../dist/out-tsc",
     "sourceMap": false,
     "module": "commonjs",
+    "types": [
+      "cypress",
+      "node"
+    ],
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
@@ -12,13 +16,11 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "**/*.ts",
-    "**/*.js",
-    "playwright.config.mts",
-    "src/**/*.spec.ts",
-    "src/**/*.spec.js",
-    "src/**/*.test.ts",
-    "src/**/*.test.js",
-    "src/**/*.d.ts"
+    "src/**/*.ts",
+    "src/**/*.js",
+    "cypress.config.ts"
+  ],
+  "exclude": [
+    "playwright.config.mts"
   ]
 }
