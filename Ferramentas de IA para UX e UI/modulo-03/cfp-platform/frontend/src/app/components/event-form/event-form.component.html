@@ -1,0 +1,148 @@
+<section class="cfp-container" aria-labelledby="event-heading">
+  <div class="cfp-card">
+    <header class="form-header">
+      <div class="header-text">
+        <h2 id="event-heading" class="cfp-title">Cadastro de Local do Evento</h2>
+        <p class="cfp-subtitle">
+          Preencha o formulário abaixo para cadastrar um novo local de evento. Todos os campos marcados com <strong>*</strong> são obrigatórios.
+        </p>
+      </div>
+      <div class="header-actions">
+        <a routerLink="/dashboard" class="btn-nav btn-outline" aria-label="Acessar Dashboard">
+          <span>Ver Dashboard</span>
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Feedback live region for screen readers -->
+    <div
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+      class="status-feedback"
+    >
+      @if (submitSuccess()) {
+        <div class="alert alert-success">
+          <strong>Sucesso!</strong> O local do evento foi cadastrado com sucesso!
+          @if (submittedEvent()?.id) {
+            <span> Identificador do evento: <code>{{ submittedEvent()?.id }}</code></span>
+          }
+        </div>
+      }
+
+      @if (errorMessage()) {
+        <div class="alert alert-danger" role="alert">
+          <strong>Erro no cadastro:</strong> {{ errorMessage() }}
+        </div>
+      }
+    </div>
+
+    <form [formGroup]="eventForm" (ngSubmit)="onSubmit()" class="cfp-form" novalidate>
+      <!-- Nome Field -->
+      <div class="form-group" [class.has-error]="isFieldInvalid('nome')">
+        <label for="nome" class="form-label">
+          Nome do Evento / Local <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="nome"
+          type="text"
+          formControlName="nome"
+          class="form-control"
+          placeholder="Ex: Centro de Convenções Anhembi"
+          aria-required="true"
+          [attr.aria-invalid]="isFieldInvalid('nome')"
+          [attr.aria-describedby]="isFieldInvalid('nome') ? 'nome-error' : null"
+        />
+        @if (isFieldInvalid('nome')) {
+          <span id="nome-error" class="error-text" role="alert">
+            O nome do evento é obrigatório.
+          </span>
+        }
+      </div>
+
+      <!-- Endereço Field -->
+      <div class="form-group" [class.has-error]="isFieldInvalid('endereco')">
+        <label for="endereco" class="form-label">
+          Endereço <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="endereco"
+          type="text"
+          formControlName="endereco"
+          class="form-control"
+          placeholder="Ex: Av. Olavo Fontoura, 1209 - Santana, São Paulo - SP"
+          aria-required="true"
+          [attr.aria-invalid]="isFieldInvalid('endereco')"
+          [attr.aria-describedby]="isFieldInvalid('endereco') ? 'endereco-error' : null"
+        />
+        @if (isFieldInvalid('endereco')) {
+          <span id="endereco-error" class="error-text" role="alert">
+            O endereço é obrigatório.
+          </span>
+        }
+      </div>
+
+      <!-- Capacidade Field -->
+      <div class="form-group" [class.has-error]="isFieldInvalid('capacidade')">
+        <label for="capacidade" class="form-label">
+          Capacidade (pessoas) <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="capacidade"
+          type="number"
+          min="1"
+          formControlName="capacidade"
+          class="form-control"
+          placeholder="Ex: 500"
+          aria-required="true"
+          [attr.aria-invalid]="isFieldInvalid('capacidade')"
+          [attr.aria-describedby]="isFieldInvalid('capacidade') ? 'capacidade-error' : null"
+        />
+        @if (isFieldInvalid('capacidade')) {
+          <span id="capacidade-error" class="error-text" role="alert">
+            A capacidade é obrigatória e deve ser maior que zero.
+          </span>
+        }
+      </div>
+
+      <!-- Data Field -->
+      <div class="form-group" [class.has-error]="isFieldInvalid('data')">
+        <label for="data" class="form-label">
+          Data do Evento <span class="required" aria-hidden="true">*</span>
+        </label>
+        <input
+          id="data"
+          type="date"
+          formControlName="data"
+          class="form-control"
+          aria-required="true"
+          [attr.aria-invalid]="isFieldInvalid('data')"
+          [attr.aria-describedby]="isFieldInvalid('data') ? 'data-error' : null"
+        />
+        @if (isFieldInvalid('data')) {
+          <span id="data-error" class="error-text" role="alert">
+            A data do evento é obrigatória.
+          </span>
+        }
+      </div>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-submit"
+          [disabled]="isSubmitting()"
+          [attr.aria-disabled]="isSubmitting()"
+        >
+          @if (isSubmitting()) {
+            <span class="spinner" aria-hidden="true"></span>
+            <span>Cadastrando evento...</span>
+          } @else {
+            <span>Cadastrar Local do Evento</span>
+          }
+        </button>
+      </div>
+    </form>
+  </div>
+</section>
