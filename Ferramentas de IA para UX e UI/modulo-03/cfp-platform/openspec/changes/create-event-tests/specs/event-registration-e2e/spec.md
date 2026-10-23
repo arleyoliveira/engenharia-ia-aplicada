@@ -2,23 +2,23 @@
 
 ## Purpose
 
-Define a especificação de testes End-to-End (E2E) com Cypress para o formulário de cadastro de propostas de palestras CFP (Call for Papers) na rota `/`, assegurando a validação dos cenários de sucesso e exibição de erros nativos com seletores CSS convencionais.
+Define a especificação de testes End-to-End (E2E) com Cypress para o formulário de cadastro de eventos na rota `/event/new`, assegurando a validação dos cenários de sucesso e exibição de erros nativos com seletores CSS convencionais.
 
 ## ADDED Requirements
 
-### Requirement: Submissão de proposta CFP com dados válidos
-A suíte de testes E2E SHALL validar que a navegação para `/`, o preenchimento de todos os campos obrigatórios (Nome, E-mail, Título da Palestra e GDE opcional) com seletores CSS convencionais e o clique no botão de submissão resultam em confirmação visível de sucesso e exibição do identificador da proposta.
+### Requirement: Submissão de evento com dados válidos
+A suíte de testes E2E SHALL validar que a navegação para `/event/new`, o preenchimento de todos os campos obrigatórios (Nome, Endereço, Capacidade e Data) com seletores CSS convencionais e o clique no botão de submissão resultam em confirmação visível de sucesso e exibição do identificador do evento.
 
-#### Scenario: Cadastro de proposta realizado com sucesso
-- **WHEN** o teste Cypress navega para `/`, preenche os campos nome, e-mail, título da palestra usando seletores CSS convencionais (`id`, `class` ou `name`), marca a opção GDE e aciona o botão de submeter
-- **THEN** a aplicação confirma o envio bem-sucedido e exibe alerta de sucesso visível na tela com o id gerado
+#### Scenario: Cadastro de evento realizado com sucesso
+- **WHEN** o teste Cypress navega para `/event/new`, preenche os campos nome, endereço, capacidade e data usando seletores CSS convencionais (`id`, `class` ou `name`) e aciona o botão de submeter
+- **THEN** a aplicação confirma o envio bem-sucedido e exibe indicador ou mensagem de sucesso visível na tela com o id gerado
 
-### Requirement: Validação de campos obrigatórios no formulário CFP
-A suíte de testes E2E SHALL validar que o formulário de proposta CFP mantém o botão de submissão desabilitado quando vazio e exibe mensagens de erro nativas ao interagir com campos obrigatórios sem preenchimento correto.
+### Requirement: Validação de campos obrigatórios no formulário de evento
+A suíte de testes E2E SHALL validar que a tentativa de submissão do formulário de evento com campos vazios impede o cadastro e exibe mensagens de erro nativas de validação na interface.
 
-#### Scenario: Formulário vazio/inválido exibe mensagens de erro e desabilita envio
-- **WHEN** o teste Cypress navega para `/` e interage (blur) com os campos do formulário sem preenchimento válido
-- **THEN** a tela exibe mensagens nativas de validação para os campos obrigatórios e mantém o botão de submissão desabilitado (`disabled` e `aria-disabled="true"`)
+#### Scenario: Submissão com campos vazios exibe mensagens de erro
+- **WHEN** o teste Cypress navega para `/event/new` e aciona o botão de submissão sem preencher os campos do formulário
+- **THEN** a tela exibe asserções visíveis confirmando as mensagens nativas de validação para os campos obrigatórios (`#nome-error`, `#endereco-error`, `#capacidade-error`, `#data-error`) e não realiza o cadastro
 
 ### Requirement: Conformidade com sintaxe tradicional do Cypress
 Os testes automatizados E2E SHALL utilizar exclusivamente a sintaxe nativa e tradicional do Cypress (`cy.get`, `cy.contains`, `should`), sem inclusão de bibliotecas ou serviços externos baseados em inteligência artificial.
