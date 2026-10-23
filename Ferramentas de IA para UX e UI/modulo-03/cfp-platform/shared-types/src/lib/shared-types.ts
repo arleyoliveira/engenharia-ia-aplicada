@@ -3,3 +3,4 @@ export function sharedTypes(): string {
 }
 
 export * from './speaker.dto';
+export * from './event.dto';
