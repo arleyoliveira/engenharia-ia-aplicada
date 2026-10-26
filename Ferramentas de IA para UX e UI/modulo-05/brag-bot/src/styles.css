@@ -1,3 +1,125 @@
-/* You can add global styles to this file, and also import other style files */
-
 @import 'tailwindcss';
+
+@theme {
+  /* BTG Pactual Official Brand & Semantic Palette */
+  --color-btg-bg: #030914;
+  --color-btg-card: #071226;
+  --color-btg-card-hover: #0b1b38;
+  --color-btg-navy-deep: #05132a;
+  --color-btg-navy: #001e62;
+  --color-btg-navy-mid: #0b2859;
+  --color-btg-blue-dark: #10408d;
+  --color-btg-blue-mid: #195ab4;
+  --color-btg-blue-interactive: #307ae0;
+  --color-btg-blue: #0047ff;
+  --color-btg-blue-hover: #1e5aff;
+  --color-btg-blue-light: #549cff;
+  --color-btg-ice: #d2e5ff;
+  --color-btg-ice-light: #87baff;
+  --color-btg-gold: #c5a880;
+  --color-btg-emerald: #00d084;
+  --color-btg-border: rgba(84, 156, 255, 0.18);
+  --color-btg-border-hover: rgba(84, 156, 255, 0.45);
+
+  /* Typography: Moderat-like geometric sans (Plus Jakarta Sans) & Financial Monospace */
+  --font-display: 'Plus Jakarta Sans', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Roboto Mono', monospace;
+
+  /* Backward Compatibility Aliases */
+  --color-unipds-bg: #030914;
+  --color-unipds-card: #071226;
+  --color-unipds-card-hover: #0b1b38;
+  --color-unipds-accent: #0047ff;
+  --color-unipds-accent-hover: #1e5aff;
+  --color-unipds-cyan: #549cff;
+  --color-unipds-teal: #0b2859;
+  --color-unipds-teal-dark: #05132a;
+  --font-agdasima: 'Plus Jakarta Sans', sans-serif;
+  --font-space: 'Plus Jakarta Sans', sans-serif;
+}
+
+:root {
+  --btg-navy: #001e62;
+  --btg-blue: #0047ff;
+  --btg-blue-hover: #1e5aff;
+  --btg-blue-light: #549cff;
+  --btg-ice: #d2e5ff;
+  --btg-bg: #030914;
+  --btg-card: #071226;
+  --btg-card-hover: #0b1b38;
+  --btg-emerald: #00d084;
+  --btg-gold: #c5a880;
+
+  /* Legacy aliases */
+  --accent: #0047ff;
+  --accent-hover: #1e5aff;
+  --unipds-cyan: #549cff;
+  --unipds-teal: #0b2859;
+}
+
+/* BTG Pactual Architectural Dark Navy Grid Background */
+.btg-grid-bg,
+.cyber-grid-bg {
+  background-color: #030914;
+  background-image:
+    radial-gradient(circle at 50% -10%, rgba(0, 71, 255, 0.22) 0%, transparent 55%),
+    radial-gradient(circle at 85% 20%, rgba(84, 156, 255, 0.1) 0%, transparent 45%),
+    radial-gradient(circle at 10% 60%, rgba(0, 30, 98, 0.25) 0%, transparent 50%),
+    linear-gradient(to right, rgba(84, 156, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(84, 156, 255, 0.035) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 48px 48px, 48px 48px;
+}
+
+/* BTG Pactual Institutional Glass Card */
+.btg-glass-card,
+.unipds-glass-card {
+  background: rgba(7, 18, 38, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(84, 156, 255, 0.18);
+  box-shadow: 0 10px 35px rgba(0, 10, 30, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btg-glass-card:hover,
+.unipds-glass-card:hover {
+  border-color: rgba(84, 156, 255, 0.42);
+  box-shadow: 0 14px 45px rgba(0, 71, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* BTG Pactual Corporate Tag / Chip */
+.btg-tag,
+.unipds-tag {
+  background: rgba(0, 30, 98, 0.65);
+  border: 1px solid rgba(84, 156, 255, 0.32);
+  color: #d2e5ff;
+  font-family: 'JetBrains Mono', 'Roboto Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.28rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btg-tag:hover,
+.unipds-tag:hover {
+  background: rgba(0, 71, 255, 0.3);
+  border-color: rgba(84, 156, 255, 0.6);
+  color: #ffffff;
+}
+
+/* BTG Pactual Electric Glow */
+.btg-glow,
+.accent-glow {
+  box-shadow: 0 0 25px rgba(0, 71, 255, 0.45);
+}
+
+.btg-glow:hover,
+.accent-glow:hover {
+  box-shadow: 0 0 35px rgba(0, 71, 255, 0.7);
+}
