@@ -1,0 +1,81 @@
+<div class="min-h-screen flex flex-col bg-[#030914] text-slate-100 btg-grid-bg selection:bg-[#0047FF] selection:text-white">
+  <!-- Global Top Navbar (BTG Pactual Institutional Header) -->
+  <header class="border-b border-[#10408D]/30 bg-[#030914]/90 backdrop-blur-md sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <!-- Brand Logo / Name -->
+      <a routerLink="/" class="flex items-center gap-3.5 group cursor-pointer">
+        <!-- BTG Pactual Monogram Emblem -->
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#001E62] via-[#05132A] to-[#030914] border border-[#307AE0]/40 flex items-center justify-center text-[#549CFF] font-bold shadow-[0_0_20px_rgba(0,71,255,0.25)] group-hover:border-[#549CFF] group-hover:shadow-[0_0_25px_rgba(0,71,255,0.45)] group-hover:scale-105 transition-all">
+          <svg viewBox="0 0 32 32" class="w-6 h-6 text-[#549CFF] group-hover:text-white transition-colors" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- BTG Open Geometric Circle with Signature Aperture -->
+            <path d="M16 5.5C10.2 5.5 5.5 10.2 5.5 16S10.2 26.5 16 26.5 26.5 21.8 26.5 16c0-1.7-.4-3.3-1.12-4.7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="23.5" cy="9.5" r="2" fill="#0047FF"/>
+            <!-- BTG Monogram Cut -->
+            <path d="M12.5 11h4a2.8 2.8 0 0 1 2.8 2.8c0 1.2-.8 2.3-1.9 2.7 1.4.3 2.4 1.5 2.4 2.8a2.8 2.8 0 0 1-2.8 2.8h-4.5V11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-['Plus_Jakarta_Sans',sans-serif] text-xl font-bold tracking-tight text-white group-hover:text-[#549CFF] transition-colors">
+              Brag-Bot
+            </span>
+            <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded bg-[#001E62] border border-[#307AE0]/50 text-[#87BAFF] shadow-sm">
+              BTG Pactual
+            </span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-['JetBrains_Mono','Roboto_Mono',monospace] flex items-center gap-1.5">
+            <span>Pós IA</span>
+            <span class="text-slate-600">•</span>
+            <span class="text-slate-500">Engenharia de IA Aplicada</span>
+          </span>
+        </div>
+      </a>
+
+      <!-- Right Nav Links -->
+      <nav class="flex items-center gap-3 sm:gap-4">
+        <a
+          routerLink="/"
+          routerLinkActive="text-white border-[#0047FF] bg-[#001E62]/40"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="text-xs sm:text-sm font-semibold text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg border border-transparent hover:border-[#307AE0]/40 transition-colors"
+        >
+          Dashboard
+        </a>
+        <a
+          href="https://www.btgpactual.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#001E62]/50 border border-[#307AE0]/40 text-[#87BAFF] hover:bg-[#001E62] hover:text-white hover:border-[#549CFF] transition-all"
+        >
+          <span>Portal BTG Pactual</span>
+          <!-- External open aperture chevron icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          </svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Router Outlet Container -->
+  <main class="flex-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Global Footer (Institutional BTG Pactual) -->
+  <footer class="border-t border-[#10408D]/25 py-8 bg-[#030914]/95 mt-auto">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+      <div class="flex items-center gap-2 font-['JetBrains_Mono','Roboto_Mono',monospace]">
+        <span class="w-2 h-2 rounded-full bg-[#0047FF] animate-pulse"></span>
+        <span>Brag-Bot © BTG Pactual • Pós IA UNIPDS • Engenharia de IA</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <a href="https://www.btgpactual.com" target="_blank" class="hover:text-[#549CFF] transition-colors">
+          BTG Pactual
+        </a>
+        <span>•</span>
+        <span class="text-slate-400">Google GenAI & Genkit Architecture</span>
+      </div>
+    </div>
+  </footer>
+</div>
