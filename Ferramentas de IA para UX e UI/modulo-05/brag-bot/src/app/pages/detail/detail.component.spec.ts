@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, ActivatedRoute } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DetailComponent } from './detail.component';
 import { BragService } from '../../services/brag.service';
 
@@ -13,6 +15,8 @@ describe('DetailComponent', () => {
       imports: [DetailComponent],
       providers: [
         provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
         BragService,
         {
           provide: ActivatedRoute,

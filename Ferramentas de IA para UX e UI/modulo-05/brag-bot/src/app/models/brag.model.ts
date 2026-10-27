@@ -7,4 +7,8 @@ export interface BragItem {
   technologies: string[];
   createdAt: Date;
   rawPrompt?: string;
+  actionTaken?: string;
+  businessImpact?: string;
+  technologiesUsed?: string[];
 }
+

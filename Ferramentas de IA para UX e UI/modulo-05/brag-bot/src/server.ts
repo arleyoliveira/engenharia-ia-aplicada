@@ -6,28 +6,30 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { bragGeneratorFlow } from './flows';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
-const app = express();
-const angularApp = new AngularNodeAppEngine();
+const server = express();
+server.use(express.json());
 
-/**
- * Example Express Rest API endpoints can be defined here.
- * Uncomment and define endpoints as necessary.
- *
- * Example:
- * ```ts
- * app.get('/api/{*splat}', (req, res) => {
- *   // Handle API request
- * });
- * ```
- */
+server.post('/api/brag', async (req, res) => {
+  try {
+    const { definition } = req.body;
+    const result = await bragGeneratorFlow({ definition: req.body.definition });
+    res.json(result);
+  } catch (error) {
+    console.error('Erro ao executar bragGeneratorFlow:', error);
+    res.status(500).json({ error: 'Erro ao gerar o Brag Document' });
+  }
+});
+
+const angularApp = new AngularNodeAppEngine();
 
 /**
  * Serve static files from /browser
  */
-app.use(
+server.use(
   express.static(browserDistFolder, {
     maxAge: '1y',
     index: false,
@@ -38,7 +40,7 @@ app.use(
 /**
  * Handle all other requests by rendering the Angular application.
  */
-app.use((req, res, next) => {
+server.use((req, res, next) => {
   angularApp
     .handle(req)
     .then((response) =>
@@ -53,7 +55,7 @@ app.use((req, res, next) => {
  */
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = process.env['PORT'] || 4000;
-  app.listen(port, (error) => {
+  server.listen(port, (error) => {
     if (error) {
       throw error;
     }
@@ -65,4 +67,5 @@ if (isMainModule(import.meta.url) || process.env['pm_id']) {
 /**
  * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
  */
-export const reqHandler = createNodeRequestHandler(app);
+export const reqHandler = createNodeRequestHandler(server);
+

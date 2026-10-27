@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { DashboardComponent } from './dashboard.component';
 import { BragService } from '../../services/brag.service';
+import { BragItem } from '../../models/brag.model';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -11,7 +14,12 @@ describe('DashboardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DashboardComponent],
-      providers: [provideRouter([]), BragService]
+      providers: [
+        provideRouter([]),
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        BragService,
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
@@ -47,8 +55,25 @@ describe('DashboardComponent', () => {
 
   it('should add a new brag and display it in the list after submission', async () => {
     const initialCount = bragService.brags().length;
-    component.setPrompt('Nova conquista de teste com Genkit');
+    const testPrompt = 'Nova conquista de teste com Genkit';
+    component.setPrompt(testPrompt);
     fixture.detectChanges();
+
+    const mockCreatedBrag: BragItem = {
+      id: 'test-123',
+      title: 'Nova conquista de teste com Genkit',
+      context: 'Contexto de teste',
+      impact: 'Impacto de teste',
+      metrics: '100% de sucesso',
+      technologies: ['Genkit', 'Angular'],
+      createdAt: new Date(),
+      rawPrompt: testPrompt,
+    };
+
+    vi.spyOn(bragService, 'generateBrag').mockImplementation(async () => {
+      bragService.brags.update((items) => [mockCreatedBrag, ...items]);
+      return mockCreatedBrag;
+    });
 
     await component.onSubmit();
     fixture.detectChanges();
@@ -60,3 +85,4 @@ describe('DashboardComponent', () => {
     expect(cards[0].textContent).toContain('Nova conquista de teste com Genkit');
   });
 });
+

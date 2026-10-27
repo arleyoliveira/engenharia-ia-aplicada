@@ -54,7 +54,12 @@ export class DashboardComponent {
     const text = this.rawPrompt().trim();
     if (!text || this.loading()) return;
 
-    await this.bragService.generateMockBrag(text);
-    this.rawPrompt.set('');
+    try {
+      await this.bragService.generateBrag(text);
+      this.rawPrompt.set('');
+    } catch (err) {
+      console.error('Falha ao gerar conquista executiva:', err);
+    }
   }
+
 }

@@ -1,4 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { BragItem } from '../models/brag.model';
 
 const STORAGE_KEY = 'btg_brag_items';
@@ -51,6 +53,8 @@ function loadInitialBrags(): BragItem[] {
   providedIn: 'root'
 })
 export class BragService {
+  private readonly http = inject(HttpClient);
+
   // Signal guardando o array de conquistas (com inicialização resiliente)
   readonly brags = signal<BragItem[]>(loadInitialBrags());
 
@@ -58,42 +62,44 @@ export class BragService {
   readonly loading = signal<boolean>(false);
 
   /**
-   * Simula chamada de rede (1.5s), ativa o loading e adiciona uma conquista mockada
+   * Envia o rascunho (definition) para a rota /api/brag, liga o loading,
+   * adiciona a resposta ao signal brags e desliga o loading.
    */
-  async generateMockBrag(prompt: string): Promise<BragItem> {
+  async generateBrag(definition: string): Promise<BragItem> {
     this.loading.set(true);
 
     try {
-      // Simula latência de rede de 1.5s
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await firstValueFrom(
+        this.http.post<any>('/api/brag', { definition })
+      );
 
-      const newId = `brag-${Date.now()}`;
-      const trimmedPrompt = prompt.trim();
-
-      // Objeto JSON mockado com Título, Contexto, Impacto, Métrica e Tecnologias
-      const mockBrag: BragItem = {
-        id: newId,
-        title: trimmedPrompt 
-          ? `Otimização de Arquitetura: ${this.summarizeTitle(trimmedPrompt)}`
-          : 'Automação Inteligente com Genkit & Engenharia de Prompts',
-        context: trimmedPrompt
-          ? `Aplicação de técnicas avançadas de Engenharia de IA para resolver o desafio: "${trimmedPrompt}". Desenvolvido no ecossistema de alta disponibilidade do BTG Pactual.`
-          : 'Refatoração da arquitetura de microsserviços integrando agentes inteligentes do Google GenAI com Genkit para processamento distribuído de demandas em tempo real.',
-        impact: 'Aumento significativo na eficiência operacional da equipe, eliminando gargalos manuais e garantindo conformidade com padrões corporativos e de alta disponibilidade.',
-        metrics: '84% de ganho de produtividade operacional | 0 falhas em produção nos primeiros 30 dias',
-        technologies: ['Genkit 1.43', 'Gemini 3.8 Flash', 'Google Cloud', 'Tailwind CSS', 'Angular Signals'],
-        createdAt: new Date(),
-        rawPrompt: trimmedPrompt || 'Implementação de solução de inteligência artificial aplicada.'
+      const newBrag: BragItem = {
+        ...response,
+        id: response.id || `brag-${Date.now()}`,
+        title: response.title || 'Conquista Destilada',
+        context: response.context || '',
+        actionTaken: response.actionTaken,
+        businessImpact: response.businessImpact,
+        impact: response.businessImpact || response.impact || '',
+        metrics: Array.isArray(response.metrics)
+          ? response.metrics.join(' | ')
+          : (response.metrics || ''),
+        technologies: response.technologiesUsed || response.technologies || [],
+        technologiesUsed: response.technologiesUsed || response.technologies || [],
+        createdAt: response.createdAt ? new Date(response.createdAt) : new Date(),
+        rawPrompt: definition,
       };
 
-      // Atualiza a lista de brags adicionando a nova conquista no topo e persiste
       this.brags.update((current) => {
-        const updated = [mockBrag, ...current];
+        const updated = [newBrag, ...current];
         this.saveToStorage(updated);
         return updated;
       });
 
-      return mockBrag;
+      return newBrag;
+    } catch (error) {
+      console.error('Erro ao gerar conquista com Brag-Bot:', error);
+      throw error;
     } finally {
       this.loading.set(false);
     }
@@ -115,11 +121,5 @@ export class BragService {
       }
     }
   }
-
-  private summarizeTitle(prompt: string): string {
-    const clean = prompt.replace(/[^\w\sÀ-ÿ]/gi, '').trim();
-    const words = clean.split(/\s+/);
-    if (words.length <= 6) return clean;
-    return words.slice(0, 6).join(' ') + '...';
-  }
 }
+
