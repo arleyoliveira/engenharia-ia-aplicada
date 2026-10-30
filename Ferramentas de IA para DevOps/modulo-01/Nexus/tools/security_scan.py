@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 from crewai.tools import tool
 
@@ -10,9 +11,10 @@ def run_checkov_scan(filename: str = "main.tf") -> str:
         return f"❌ Error: File '{filename}' not found for scanning."
 
     try:
-        # Executes Checkov CLI to scan the target file
+        # Executes Checkov CLI to scan the target file using current Python interpreter
+        cmd = [sys.executable, "-m", "checkov.main", "-f", filename, "--quiet", "--compact"]
         result = subprocess.run(
-            ["checkov", "-f", filename, "--quiet", "--compact"],
+            cmd,
             capture_output=True,
             text=True,
             check=False
