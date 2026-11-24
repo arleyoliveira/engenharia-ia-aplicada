@@ -31,11 +31,11 @@ spec:
 
         env:
         # Injeção da Chave via Secret
-        - name: GROQ_API_KEY
+        - name: OPENROUTER_API_KEY
           valueFrom:
             secretKeyRef:
               name: nexus-secrets
-              key: GROQ_API_KEY
+              key: OPENROUTER_API_KEY
         
         # Configurações de Runtime do Python/Mac
         - name: OBJC_DISABLE_INITIALIZE_FORK_SAFETY

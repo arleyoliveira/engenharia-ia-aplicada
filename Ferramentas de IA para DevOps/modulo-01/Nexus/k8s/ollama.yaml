@@ -29,9 +29,9 @@ spec:
         ports:
         - containerPort: 11434
         resources:
-          limits:
-            memory: "1536Mi" # LLMs precisam de mais RAM
+          requests:
+            memory: "7Gi" # LLMs precisam de mais RAM
             cpu: "500m"
-          limits: # O máximo que ele pode roubar
-            memory: "2Gi"
+          limits: # O máximo que ele pode usar
+            memory: "12Gi"
             cpu: "1"

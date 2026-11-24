@@ -38,6 +38,9 @@ spec:
         - name: AWS_SECRET_ACCESS_KEY
           value: "test"
         resources:
-          limits:
-            memory: "256Mi"
+          requests:
+            memory: "512Mi"
             cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"

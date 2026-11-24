@@ -10,11 +10,11 @@ spec:
         image: nexus-bot:v1
         imagePullPolicy: Never
         env:
-        - name: GROQ_API_KEY
+        - name: OPENROUTER_API_KEY
           valueFrom:
             secretKeyRef:
               name: nexus-secrets
-              key: GROQ_API_KEY
+              key: OPENROUTER_API_KEY
         - name: AWS_ENDPOINT_URL
           value: "http://localstack:4566" # A PONTE AQUI!
       restartPolicy: OnFailure # Só reinicia se der erro real, não se completar
